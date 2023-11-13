@@ -1,0 +1,74 @@
+package kr.or.ddit.service.owner.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import kr.or.ddit.mapper.owner.FrcsOrderMapper;
+import kr.or.ddit.service.owner.IFrcsOrderService;
+import kr.or.ddit.vo.owner.FrcsInventoryVO;
+import kr.or.ddit.vo.owner.FrcsOrderDetailVO;
+import kr.or.ddit.vo.owner.FrcsOrderVO;
+import kr.or.ddit.vo.owner.OwnerPaginationInfoVO;
+
+@Service
+public class FrcsOrderServiceImpl implements IFrcsOrderService{
+	
+	@Inject
+	private FrcsOrderMapper mapper;
+
+	@Override
+	public int selectOrderCount(OwnerPaginationInfoVO<FrcsInventoryVO> pagingVO) {
+		return mapper.selectOrderCount(pagingVO);
+	}
+
+	@Override
+	public List<FrcsInventoryVO> selectOrderList(OwnerPaginationInfoVO<FrcsInventoryVO> pagingVO) {
+		return mapper.selectOrderList(pagingVO);
+	}
+
+	@Override
+	public List<FrcsInventoryVO> getInventList(String memId) {
+		return mapper.getInventList(memId);
+	}
+
+	@Override
+	public List<FrcsInventoryVO> inventSearch(String searchWord, String searchType, String frcsId) {
+		return mapper.inventSearch(searchWord,searchType,frcsId);
+	}
+
+	@Override
+	public String getFrcsId(String memId) {
+		return mapper.getFrcsId(memId);
+	}
+
+	@Override
+	public void orderInsert(List<FrcsOrderVO> orderList, String frcsId, int frcsOrderAmt) {
+		
+		// 발주테이블 
+		mapper.orderInsert(frcsId,frcsOrderAmt);
+
+		// 발주 상세테이블
+		 for(int i=0; i<orderList.size(); i++) {
+		    	Map<String, Object> orderMap = (Map<String, Object>) orderList.get(i);
+		    	String vdprodCd = orderMap.get("vdprodCd").toString();	// 제품코드
+		    	String frcsorderQyStr = orderMap.get("frcsOrderQy").toString(); 
+		    	int frcsorderQy = Integer.parseInt(frcsorderQyStr);	// 주문수량
+		    	String hdforwardPriceStr = orderMap.get("hdforwardPrice").toString(); 
+		    	int hdforwardPrice = Integer.parseInt(hdforwardPriceStr); // 발주당시 가격
+		    
+		    	FrcsOrderDetailVO detailVO = new FrcsOrderDetailVO();
+		    	detailVO.setVdprodCd(vdprodCd);
+		    	detailVO.setFrcsOrderQy(frcsorderQy);
+		    	detailVO.setHdforwardPrice(hdforwardPrice);
+		    	detailVO.setFrcsId(frcsId);
+		    	mapper.orderDetailInsert(detailVO);
+		    }
+		
+		
+	}
+
+}

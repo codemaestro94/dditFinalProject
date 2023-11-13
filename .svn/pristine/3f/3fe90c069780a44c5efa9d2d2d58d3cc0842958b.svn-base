@@ -1,0 +1,18 @@
+package kr.or.ddit.service.owner;
+
+import java.util.List;
+
+import kr.or.ddit.vo.owner.FrcsInventoryVO;
+import kr.or.ddit.vo.owner.FrcsOrderVO;
+import kr.or.ddit.vo.owner.OwnerPaginationInfoVO;
+
+public interface IFrcsOrderService {
+
+	public int selectOrderCount(OwnerPaginationInfoVO<FrcsInventoryVO> pagingVO);
+	public List<FrcsInventoryVO> selectOrderList(OwnerPaginationInfoVO<FrcsInventoryVO> pagingVO);
+	public List<FrcsInventoryVO> getInventList(String memId);
+	public List<FrcsInventoryVO> inventSearch(String searchWord, String searchType, String frcsId);
+	public String getFrcsId(String memId);
+	public void orderInsert(List<FrcsOrderVO> orderList, String frcsId, int frcsOrderAmt);
+
+}

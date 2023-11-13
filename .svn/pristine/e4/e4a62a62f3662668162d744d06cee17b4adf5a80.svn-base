@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.owner.FrcsOrderMapper">
+	
+	<!-- include 처리를 위한 동적 쿼리 -->
+	<sql id="inventSearch">
+		<if test="searchType !=null and searchType== 'vdprodName'">
+			and (h.vdprod_name like '%'||#{searchWord}||'%')
+		</if>
+		<if test="searchType !=null and searchType== 'vdprodCd'">
+			and (h.vdprod_cd like '%'||#{searchWord}||'%')		
+		</if>
+	</sql>
+	
+	<select id="selectOrderCount" parameterType="ownerPagingVO" resultType="int">
+		select count(f.vdprod_cd)
+		from frcs_inventory f, head_inventory h, frcs_ownership o
+		where f.vdprod_cd = h.vdprod_cd and o.mem_id = #{memId}
+	</select>
+
+	<select id="selectOrderList" parameterType="ownerPagingVO" resultType="inventVO">
+		select 
+			b.*
+		from (
+			select 
+				a.*, row_number() over (order by a.vdprod_cd asc) rnum
+			from(
+				select h.vdprod_cd, h.vdprod_name, f.invntry_qy, f.proprt_qy, h.hdforward_price, f.frcs_id
+				from frcs_inventory f, head_inventory h, frcs_ownership o
+				where f.vdprod_cd = h.vdprod_cd 
+				and o.mem_id = #{memId}
+			    order by vdprod_cd asc
+			)a
+		)b	
+		<![CDATA[	
+			where b.rnum >= #{startRow} and b.rnum <= #{endRow}
+		]]>
+	</select>
+	
+	<select id="getInventList" parameterType="string" resultType="inventVO">
+		select h.vdprod_cd, h.vdprod_name, f.invntry_qy, f.proprt_qy, h.hdforward_price, f.frcs_id
+		from frcs_inventory f, head_inventory h, frcs_ownership o
+		where f.vdprod_cd = h.vdprod_cd 
+		and o.mem_id = #{memId}
+	    order by vdprod_cd asc
+	</select>
+	
+	<select id="inventSearch" parameterType="map" resultType="inventVO">
+		select h.vdprod_cd, h.vdprod_name, f.invntry_qy, f.proprt_qy, h.hdforward_price, f.frcs_id
+		from frcs_inventory f, head_inventory h, frcs_ownership o
+		where f.vdprod_cd = h.vdprod_cd 
+		and o.frcs_id = #{frcsId}
+		<include refid="inventSearch"/>
+	    order by vdprod_cd asc
+	</select>
+	
+	<select id="getFrcsId" parameterType="string" resultType="string">
+		select frcs_id
+		from frcs_ownership
+		where mem_id = #{memId}
+	</select>
+</mapper>
