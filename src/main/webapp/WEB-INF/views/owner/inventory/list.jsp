@@ -182,7 +182,7 @@ $(function(){
 		var btnText = thisEle.text();
 		
 		// 버튼 텍스트값이 수정이면 
-		var tr = thisEle.parent().parent();	// <tr>
+		var tr = thisEle.closest("tr");	// <tr>
 	   	var td = tr.children();	// <td>
 	   	
 		if(btnText== "수정"){
@@ -193,11 +193,6 @@ $(function(){
 			invntryQy = tr.find("#invntryQy").val(); // 현 재고 수량
 			proprtQy = td.find("#proprtQy").val(); // 적정 수량
 			vdprodCd = td.eq(1).text();	// 제품코드
-			
-			console.log(td);
-			console.log("현재고수량 : " + invntryQy);
-			console.log("적정수량 : " + proprtQy);
-			console.log("제품코드 : " + vdprodCd);
 			
 			var invntryStr = "<div class='input-group bootstrap-touchspin bootstrap-touchspin-injected'>";
 			invntryStr += "<span class='input-group-btn input-group-prepend'><button class='btn btn-primary bootstrap-touchspin-down invntryDown' type='button'>-</button></span>";
@@ -269,52 +264,43 @@ $(function(){
 			});
 		}	
 	});
+
+	// +,- 처리 함수
+	function plusMinus(buttonClass, inputClass, increment){
+		tBody.on("click", buttonClass, function(){
+			var ele = $(this)[0];	// 누른 버튼
+	 		var injectEle = $(ele).parents(".bootstrap-touchspin-injected");
+			var inputEle = $(injectEle).find(inputClass);
+			
+			var currentValue = parseInt(inputEle.val());	// +나 - 누르기 전 현재 값
+			var nowVal = 0;
+			
+			if(increment){
+				nowVal = currentValue + 1;
+			}else{
+				if (currentValue > 0) {
+		 	        nowVal = currentValue - 1;
+		 	    }else{
+		 	    	return;	// 현재 값이 0이면 더 감소할 수 없게
+		 	    }
+			}
+			inputEle.val(nowVal);
+		});
+	}
 	
 	// 현 재고수량 + 버튼 눌렀을 때 숫자 증가
-	tBody.on("click",".invntryUp",function(){
-		var ele = $(this)[0];	// 누른 버튼
-		console.log(ele);
- 		var injectEle = $(ele).parents(".bootstrap-touchspin-injected");
- 		var inputEle = $(injectEle).find(".invntryQyInput").val();
-			invntryQyVal = parseInt(inputEle) + 1;
- 		$(injectEle).find(".invntryQyInput").val(invntryQyVal);
-	});
+	plusMinus(".invntryUp",".invntryQyInput",true);
 	
 	// 현 재고수량 - 버튼 눌렀을 때 숫자 감소
-	tBody.on("click",".invntryDown",function(){
-		var ele = $(this)[0];	// 누른 버튼
- 		var injectEle = $(ele).parents(".bootstrap-touchspin-injected");
- 		var inputEle = $(injectEle).find(".invntryQyInput");
- 		var currentValue = parseInt(inputEle.val());	//  - 누르기 전 현재 값
-
- 	    if (currentValue > 0) {
- 	        var invntryQyVal = currentValue - 1;
- 	        inputEle.val(invntryQyVal);
- 	    }
-	});
+	plusMinus(".invntryDown",".invntryQyInput",false);
 	
 	// 적정 재고수량 + 버튼 눌렀을 때 숫자 증가
-	tBody.on("click",".proprtUp",function(){
-		var ele = $(this)[0];	// 누른 버튼
- 		var injectEle = $(ele).parents(".bootstrap-touchspin-injected");
- 		var inputEle = $(injectEle).find(".proprtQyInput").val();
- 		proprtQyVal = parseInt(inputEle) + 1;
- 		$(injectEle).find(".proprtQyInput").val(proprtQyVal);
-	});
+	plusMinus(".proprtUp",".proprtQyInput",true);
 	
-	// 적정 재고수량 + 버튼 눌렀을 때 숫자 증가
-	tBody.on("click",".proprtDown",function(){
-		var ele = $(this)[0];	// 누른 버튼
- 		var injectEle = $(ele).parents(".bootstrap-touchspin-injected");
- 		var inputEle = $(injectEle).find(".proprtQyInput");
-
- 		var currentValue = parseInt(inputEle.val());	//  - 누르기 전 현재 값
-
- 		if (currentValue > 0) {
- 	        var proprtQyVal = currentValue - 1;
- 	        inputEle.val(proprtQyVal);
- 	    }
-	});
+	// 적정 재고수량 - 버튼 눌렀을 때 숫자 증가
+	plusMinus(".proprtDown",".proprtQyInput",false);
+	
+	
 	
 	$("#beginBtn").on("click",function(){
 		var frcsId = $("#frcsId").val();
@@ -368,7 +354,6 @@ $(function(){
 			            }
 			        });
 				}
-				
 				if(res == "OK"){
 					 Swal.fire({
 			            title: "업데이트 성공",
