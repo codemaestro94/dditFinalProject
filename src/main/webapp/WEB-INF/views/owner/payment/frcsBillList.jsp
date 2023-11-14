@@ -83,13 +83,6 @@
                                                                <a href="javascript:void(0);" class="action-icon" id="tradRedctI"><i class="mdi mdi-eye"></i></a>
                                                            </td>
                                                    	   </tr>
-<!--                                                    	   <tr> -->
-<!--                                                    	   	   <td style="text-align:left">6. 미납금</td> -->
-<%--                                                            <td style="text-align:center"><fmt:formatNumber value="${billVO.frcsNonPayment }" type="currency"/></td> --%>
-<!--                                                       	   <td> -->
-<!--                                                                <a href="javascript:void(0);" class="action-icon"><i class="mdi mdi-eye"></i></a> -->
-<!--                                                            </td> -->
-<!--                                                    	   </tr> -->
                                                    	   <tr>
                                                    	   	   <td style="text-align:left">6. 연체이자</td>
                                                            <td style="text-align:center" id="overdues"><fmt:formatNumber value="${billVO.frcsbillOverdue }" type="number"/>(원)</td>
