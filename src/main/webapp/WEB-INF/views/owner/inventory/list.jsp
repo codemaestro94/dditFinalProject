@@ -67,8 +67,7 @@
 		                        <table class="table table-centered table-nowrap mb-0 table-hover">
 		                            <thead class="table-light">
 		                                <tr>
-		                                    <th style="width: 40px;">
-		                                    </th>
+		                                    <th style="width: 40px;"></th>
 		                                    <th style="text-align:center; width:110px;">제품 코드</th>
 		                                    <th style="text-align:center; width:200px;">제품명</th>
 		                                    <th style="text-align:center; width:150px;">현 재고수량</th>
@@ -95,8 +94,7 @@
 											<c:otherwise>
 												<c:forEach items="${inventList }" var="invent" varStatus="stat">
 													<tr>
-					                                    <td>
-					                                    </td>
+					                                    <td></td>
 					                                    <td style="text-align:center">${invent.vdprodCd }</td>
 					                                    <td style="text-align:center">${invent.vdprodName }</td>
 						                              	<td style="text-align:center" id="invntryQytd">
@@ -176,7 +174,6 @@ $(function(){
 	
 	// 수정 버튼을 눌렀을 때 버튼 글씨가 변경으로 바뀌면서 +- 를 설정할 수 있게
 	tBody.on("click",".updateBtn",function(){
-			
 		// 버튼 텍스트값
 		var thisEle = $(this);
 		var btnText = thisEle.text();
@@ -215,10 +212,6 @@ $(function(){
 		if(btnText=="변경"){	// "변경" 버튼을 클릭했을 때 서버로 데이터 전송
 			
 			var frcsId = thisEle[0].dataset.frcsid;	// 프랜차이즈 id
-			
-			console.log("제품코드 : " + vdprodCd);
-			console.log("프랜차이즈 id : " + frcsId);
-			
 			var invntryQyInput = tr.find(".invntryQyInput");
 		    var proprtQyInput = tr.find(".proprtQyInput");
 		    var invntryQyVal = parseInt(invntryQyInput.val());
@@ -226,7 +219,6 @@ $(function(){
 			var hdforwardPriceInput = tr.find(".hdforwardPriceInput");
 			var hdforwardPriceVal = hdforwardPriceInput.val();
 			
-			console.log(hdforwardPriceVal);
 		    
 			var data = {
 				invntryQy : invntryQyVal,
@@ -235,8 +227,6 @@ $(function(){
 				frcsId : frcsId,
 				hdforwardPrice : hdforwardPriceVal
 			};
-			
-			console.log(invntryQyVal);
 			
 			// 수정 비동기처리 
 			$.ajax({
@@ -299,10 +289,12 @@ $(function(){
 	
 	// 적정 재고수량 - 버튼 눌렀을 때 숫자 증가
 	plusMinus(".proprtDown",".proprtQyInput",false);
+
 	
 	
-	
+	// 초기 재고 설정
 	$("#beginBtn").on("click",function(){
+
 		var frcsId = $("#frcsId").val();
 		
 		$.ajax({
@@ -342,7 +334,6 @@ $(function(){
 			},
 			data : {frcsId : frcsId},
 			success : function(res){
-				console.log(res);
 				
 				if(res == "EXIST"){
 					Swal.fire({
