@@ -17,4 +17,9 @@ public class FrcsPublicDuesVO {
 	private Date duesDate;
 	private String duesMthtYN;
 	
+	private double percentWater;
+	private double percentElcty;
+	private double percentGas;
+	private double percentMtht;
+	
 } 	

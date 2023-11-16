@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.velocity.runtime.directive.Parse;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.ServiceResult;
@@ -63,16 +64,29 @@ public class FrcsBillServiceImpl implements IFrcsBillService {
 		return mapper.frcsIdInfo(memId);
 	}
 	
-	// 내 가맹점 평균 공과금액 가져오기
+	// 내 가맹점 평균 및 전체 가맹점 대비 % 가져오기
 	@Override
 	public FrcsPublicDuesVO average(String memId) {
-		return mapper.average(memId);
-	}
-
-	// 전체 가맹점 평균 공과금액 가져오기
-	@Override
-	public FrcsPublicDuesVO totalAverage() {
-		return mapper.totalAverage();
+		
+		FrcsPublicDuesVO myAverage = mapper.average(memId);
+		FrcsPublicDuesVO totalAverage = mapper.totalAverage();
+		
+		log.info("myAverage : " + myAverage);
+		log.info("totalAverage : " + totalAverage);
+		log.info("totalAverage.getDuesWater : " + totalAverage.getDuesWater());
+		log.info("myAverage.getDuesWater() : " + myAverage.getDuesWater());
+		
+		double water = ((totalAverage.getDuesWater() - myAverage.getDuesWater()) / (double)totalAverage.getDuesWater())*-100;
+		double elcty = ((totalAverage.getDuesElcty()- myAverage.getDuesElcty())/ (double)totalAverage.getDuesElcty())*-100;
+		double gas = ((totalAverage.getDuesGas()- myAverage.getDuesGas())/ (double)totalAverage.getDuesGas())*-100;
+		double mtht = ((totalAverage.getDuesMtht()- myAverage.getDuesMtht())/ (double)totalAverage.getDuesMtht())*-100;
+		
+		myAverage.setPercentWater(water);
+		myAverage.setPercentElcty(elcty);
+		myAverage.setPercentGas(gas);
+		myAverage.setPercentMtht(mtht);
+		
+		return myAverage;
 	}
 
 

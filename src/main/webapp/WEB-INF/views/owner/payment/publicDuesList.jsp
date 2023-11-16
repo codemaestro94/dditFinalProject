@@ -48,19 +48,19 @@
 		                            <i class="ri-drop-line widget-icon rounded-circle bg-info-lighten text-info"></i>
 		                        </div>
 		                        
-                                <c:set value="${((totalAverage.duesWater-average.duesWater)/totalAverage.duesWater)*-100 }" var="duesW"/>
-				                <c:set value="${((totalAverage.duesElcty-average.duesElcty)/totalAverage.duesElcty)*-100 }" var="duesE"/>
-				                <c:set value="${((totalAverage.duesGas-average.duesGas)/totalAverage.duesGas)*-100 }" var="duesG"/>
-				                <c:set value="${((totalAverage.duesMtht-average.duesMtht)/totalAverage.duesMtht)*-100 }" var="duesM"/>
+<%--                                 <c:set value="${((totalAverage.duesWater-average.duesWater)/totalAverage.duesWater)*-100 }" var="duesW"/> --%>
+<%-- 				                <c:set value="${((totalAverage.duesElcty-average.duesElcty)/totalAverage.duesElcty)*-100 }" var="duesE"/> --%>
+<%-- 				                <c:set value="${((totalAverage.duesGas-average.duesGas)/totalAverage.duesGas)*-100 }" var="duesG"/> --%>
+<%-- 				                <c:set value="${((totalAverage.duesMtht-average.duesMtht)/totalAverage.duesMtht)*-100 }" var="duesM"/> --%>
 		                        
 		                        <div class="flex-grow-1">
 		                            <h5 class="fw-semibold my-0">수도세</h5>
 		                            <p class="mb-0"><span><fmt:formatNumber value="${average.duesWater }" type="number"/>원</span>
-		                            <c:if test="${duesW ge 0}">
-		                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${duesW }"/>%</span>
+		                            <c:if test="${average.percentWater ge 0}">
+		                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentWater }"/>%</span>
 		                            </c:if>
-		                            <c:if test="${duesW le 0}">
-		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${duesW }"/>%</span>
+		                            <c:if test="${average.percentWater le 0}">
+		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentWater }"/>%</span>
 		                            </c:if>
 		                            </p>
 		                        </div>
@@ -73,11 +73,11 @@
 		                        <div class="flex-grow-1">
 		                            <h5 class="fw-semibold my-0">전기세</h5>
 		                            <p class="mb-0"><span><fmt:formatNumber value="${average.duesElcty }" type="number"/>원</span>
-		                            <c:if test="${duesE ge 0}">
-		                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${duesE }"/>%</span>
+		                            <c:if test="${average.percentElcty ge 0}">
+		                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentElcty }"/>%</span>
 		                            </c:if>
-		                            <c:if test="${duesE le 0}">
-		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${duesE }"/>%</span>
+		                            <c:if test="${average.percentElcty le 0}">
+		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentElcty }"/>%</span>
 		                            </c:if>
 		                            </p>
 		                        </div>
@@ -90,11 +90,11 @@
 		                        <div class="flex-grow-1">
 		                            <h5 class="fw-semibold my-0">가스비</h5>
 		                            <p class="mb-0"><span><fmt:formatNumber value="${average.duesGas }" type="number"/>원</span>
-		                            <c:if test="${duesG ge 0}">
-		                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${duesG }"/>%</span>
+		                            <c:if test="${average.percentGas ge 0}">
+		                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentGas }"/>%</span>
 		                            </c:if>
-		                            <c:if test="${duesG le 0}">
-		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${duesG }"/>%</span>
+		                            <c:if test="${average.percentGas le 0}">
+		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentGas }"/>%</span>
 		                            </c:if>
 		                            </p>
 		                        </div>
@@ -107,11 +107,11 @@
 		                        <div class="flex-grow-1">
 		                            <h5 class="fw-semibold my-0">월세</h5>
 		                            <p class="mb-0"><span><fmt:formatNumber value="${average.duesMtht }" type="number"/>원</span>
-		                            <c:if test="${duesM ge 0}">
-		                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${duesM }"/>%</span>
+		                            <c:if test="${average.percentMtht ge 0}">
+		                            <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentMtht }"/>%</span>
 		                            </c:if>
-		                            <c:if test="${duesM le 0}">
-		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${duesM }"/>%</span>
+		                            <c:if test="${average.percentMtht le 0}">
+		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentMtht }"/>%</span>
 		                            </c:if>
 		                            </p>
 		                            

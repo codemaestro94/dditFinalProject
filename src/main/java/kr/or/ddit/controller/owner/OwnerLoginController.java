@@ -97,9 +97,8 @@ public class OwnerLoginController {
 		// 공과금 차트
 		// 내 가맹점 평균 통계 가져오기
 		FrcsPublicDuesVO average = billService.average(frcsId);
+		
 		// 전체 가맹점 평균 통계 가져오기
-		FrcsPublicDuesVO totalAverage = billService.totalAverage();
-		model.addAttribute("totalAverage",totalAverage);
 		model.addAttribute("average",average);
       
       // 순이익 통계

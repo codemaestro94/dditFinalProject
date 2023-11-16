@@ -35,7 +35,9 @@ import kr.or.ddit.service.owner.IFrcsMyPageService;
 import kr.or.ddit.vo.owner.FranchiseVO;
 import kr.or.ddit.vo.owner.FrcsPublicDuesVO;
 import kr.or.ddit.vo.owner.OwnerPaginationInfoVO;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/owner")
 public class OwnerPublicDuesController {
@@ -99,10 +101,12 @@ public class OwnerPublicDuesController {
       // 내 가맹점 평균 통계 가져오기
       FrcsPublicDuesVO average = service.average(frcsId);
       
-      // 전체 가맹점 평균 통계 가져오기
-      FrcsPublicDuesVO totalAverage = service.totalAverage();
+      log.info("average : " + average);
       
-      model.addAttribute("totalAverage",totalAverage);
+      // 전체 가맹점 평균 통계 가져오기
+//      FrcsPublicDuesVO totalAverage = service.totalAverage();
+      
+//      model.addAttribute("totalAverage",totalAverage);
       model.addAttribute("average",average);
       model.addAttribute("duesList",duesList);
       model.addAttribute("frcsId",frcsId);

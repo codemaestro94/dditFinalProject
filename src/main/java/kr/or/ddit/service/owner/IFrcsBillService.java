@@ -28,8 +28,6 @@ public interface IFrcsBillService {
 	
 	// 내 가맹점 평균 통계
 	public FrcsPublicDuesVO average(String memId);
-	// 전체 가맹점 평균 통계
-	public FrcsPublicDuesVO totalAverage();
 
 	// 본사 청구리스트
 	public FrcsBillVO headBillList(String frcsId, Date thisMonth);
