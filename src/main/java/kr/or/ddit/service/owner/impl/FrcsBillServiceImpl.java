@@ -71,11 +71,6 @@ public class FrcsBillServiceImpl implements IFrcsBillService {
 		FrcsPublicDuesVO myAverage = mapper.average(memId);
 		FrcsPublicDuesVO totalAverage = mapper.totalAverage();
 		
-		log.info("myAverage : " + myAverage);
-		log.info("totalAverage : " + totalAverage);
-		log.info("totalAverage.getDuesWater : " + totalAverage.getDuesWater());
-		log.info("myAverage.getDuesWater() : " + myAverage.getDuesWater());
-		
 		double water = ((totalAverage.getDuesWater() - myAverage.getDuesWater()) / (double)totalAverage.getDuesWater())*-100;
 		double elcty = ((totalAverage.getDuesElcty()- myAverage.getDuesElcty())/ (double)totalAverage.getDuesElcty())*-100;
 		double gas = ((totalAverage.getDuesGas()- myAverage.getDuesGas())/ (double)totalAverage.getDuesGas())*-100;

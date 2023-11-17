@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <div class="content-page">
 	<div class="content">
@@ -288,6 +288,8 @@ $(function(){
     orderTotalSpan.text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	});
 	
+	
+	
 	// 주문수량 -
 	tBody.on("click",".orderDown",function(){
 		console.log($(this));
@@ -350,19 +352,12 @@ $(function(){
 		var orderProdName = $(this).closest('tr').find('.vdProdNameTd').text();	// 제품명
 		var orderInvntryQy = $(this).closest('tr').find('.invntryQyTd').text();	// 현 재고량
 	    var hdforwardPriceTd = $(this).closest('tr').find(".hdforwardPriceTd").text();	// 제품금액
-// 	    var hdforwardPrice = parseInt(hdforwardPriceTd.replace(/,/g, '')); // 문자열에서 ','를 제거하고 숫자로 변환
-
 		var orderHdforwardPrice = parseInt(hdforwardPriceTd.replace(/,/g, '')); // 문자열에서 ','를 제거하고 숫자로 변환
 		var orderHdforwardPriceStr = orderHdforwardPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
 	    var orderQy = parseInt($(this).closest('tr').find(".orderQyInput").val()); 	// 주문 수량
 		var orderPrice = parseInt($(this).closest('tr').find(".orderTotal").text().replace(/,/g, ''));	// 주문예상금액
 		var orderPriceStr = orderPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-		console.log("dataArr : " , dataArr);
-		console.log("orderQy : " ,  orderQy);
-		console.log("orderProdCd : " ,  orderProdCd);
-		
-		
 		// 배열에 데이터가 없으면
 		if(dataArr.length == 0){
 			console.log("배열에 아무 데이터도 없음");

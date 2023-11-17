@@ -132,14 +132,7 @@ public class OwnerInventoryController {
 	// 엑셀 다운로드
     @RequestMapping(value="/inventory/excel.do", method = RequestMethod.GET)
 	public void excelDownload(HttpServletResponse response) throws IOException{
- 	   
- 	   /*
- 	    *  HSSF : Excel 2007 하위버전(.xls) 파일 포맷을 사용할 때 사용
- 	    *  XSSF : Excel 2007 (.xlsx) 파일 포맷을 사용할 때 사용
- 	    *  SXSSF : 대용량 엑셀 파일을 출력할 때 사용
- 	    * 
- 	    */  
-    
+
     	String frcsId = commService.getFrcsId();
     	
         // workbook => 엑셀 파일 객체
@@ -181,7 +174,7 @@ public class OwnerInventoryController {
 			cell4.setCellValue(invent.getHdforwardPrice());
 			cell4.setCellStyle(formatCs);
 			
-			row.createCell(5).setCellValue(invent.getAtorderQy());
+			row.createCell(5).setCellValue(invent.getFrcsorderQy());
 			row.createCell(6).setCellValue(invent.getDlivyQy());
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -192,9 +185,7 @@ public class OwnerInventoryController {
 				lastwrhousngDate = sdf.format(lastwrhousng);
 			}
 			row.createCell(7).setCellValue(lastwrhousngDate);
-			
 		}
-		
 		 // 응답 컨텐츠와 헤더를 정해주기
 		 // header를 통해 파일명을 지정해주는 방식으로 한글 파일명을 사용할 수 없음
 		 response.setContentType("application/vnd.ms-excel");

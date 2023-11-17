@@ -110,7 +110,6 @@
 <script type="text/javascript">
 $(function(){
 	var addArea = $("#addArea");
-	
 	var myXMap = $("#myXMap").val();	// 내 가맹점 x좌표
 	var myYMap = $("#myYMap").val();	// 내 가맹점 y좌표
 	var myAddr = $("#myAddr").val();		// 내 가맹점 주소
@@ -197,9 +196,8 @@ $(function(){
 			xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");	//key value로 보낸다.
 		},
 		success : function(res){
-			// 반경 10km 안에 있는 가맹점은 가맹점코드를 따로 배열에 저장하기 > 리스트로 출력해줘야해서...	
-			var radius = 5000; // 10km 반경 (미터)
-			
+			// 반경 5km 안에 있는 가맹점은 가맹점코드를 따로 배열에 저장하기 > 리스트로 출력해줘야해서...	
+			var radius = 5000; // 5km 반경 (미터)
 			
 			for(var i=0; i<res.length; i++){
 				var otherXMap = res[i].frcsXmap;				
@@ -228,13 +226,11 @@ $(function(){
 				    // 거리 계산
 		            var distance = getDistance(myXMap, myYMap, otherXMap, otherYMap);
 		
-		            // 10km 이내에 있는 가맹점들을 nearList에 추가
+		            // 5km 이내에 있는 가맹점들을 nearList에 추가
 	                if (distance <= 5) {
 	                    nearList.push(otherFrcsId);
 	                }
 					
-					console.log(nearList);
-
 					// 모든 가맹점 마커 찍기
 					addMarker(new kakao.maps.LatLng(otherXMap, otherYMap),otherFrcsName);
 				}

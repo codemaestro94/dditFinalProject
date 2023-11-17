@@ -48,11 +48,6 @@
 		                            <i class="ri-drop-line widget-icon rounded-circle bg-info-lighten text-info"></i>
 		                        </div>
 		                        
-<%--                                 <c:set value="${((totalAverage.duesWater-average.duesWater)/totalAverage.duesWater)*-100 }" var="duesW"/> --%>
-<%-- 				                <c:set value="${((totalAverage.duesElcty-average.duesElcty)/totalAverage.duesElcty)*-100 }" var="duesE"/> --%>
-<%-- 				                <c:set value="${((totalAverage.duesGas-average.duesGas)/totalAverage.duesGas)*-100 }" var="duesG"/> --%>
-<%-- 				                <c:set value="${((totalAverage.duesMtht-average.duesMtht)/totalAverage.duesMtht)*-100 }" var="duesM"/> --%>
-		                        
 		                        <div class="flex-grow-1">
 		                            <h5 class="fw-semibold my-0">수도세</h5>
 		                            <p class="mb-0"><span><fmt:formatNumber value="${average.duesWater }" type="number"/>원</span>
@@ -585,7 +580,6 @@ $(function(){
 		success : function(res){
 			
 			for(var i=0; i<res.length; i++){
-				console.log(res[i].duesPayde);
 				var month = (res[i].duesPayde).substr(5);	// 월만 추출
 				var index; 
 				
@@ -595,13 +589,10 @@ $(function(){
 				}else{
 					index = parseInt(month)-1;
 				}
-				console.log(index);
 				
 				duesMthtChart[index] = res[i].duesMtht;
 				duesPayTotal[index] =  res[i].duesElcty+res[i].duesWater+res[i].duesGas;
 			}
-			console.log(duesMthtChart);
-			console.log(duesPayTotal);
 			
 			// 월별
 		    var months = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
