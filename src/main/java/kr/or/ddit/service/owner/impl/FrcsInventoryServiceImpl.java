@@ -106,7 +106,8 @@ public class FrcsInventoryServiceImpl implements IFrcsInventoryService{
 		
 		// 본사 재고 테이블을 for문을 돌려서 본사 재고 품목을 가져온다
 		List<HeadInventoryVO> headVO = mapper.getVdprodCd();
-		log.info(headVO.toString());
+		
+		int count = 0;	// 전체 품목이 있는지 확인하기 위함
 		
 		// 내 가맹점에 해당 품목이 있는지 check
 		for(int i=0; i<headVO.size(); i++) {
@@ -114,8 +115,9 @@ public class FrcsInventoryServiceImpl implements IFrcsInventoryService{
 			int cnt = mapper.getInventCheck(vdprodCd, frcsId);
 			
 			// 체크해서 없으면 insert, 있으면 pass
+			// 결과값이 0보다 크면 이미 존재하는 품목 (count를 늘림)
 			if(cnt > 0) {
-				
+				count++;
 			}else {
 				status = mapper.newInventInsert(vdprodCd,frcsId);
 				if(status>0) {
@@ -125,6 +127,11 @@ public class FrcsInventoryServiceImpl implements IFrcsInventoryService{
 				}
 			}
 		}
+		// 모든 제품이 존재한다면 EXIST 반환
+		if(count == headVO.size()) {
+			result = ServiceResult.EXIST;
+		}
 		return result;
 	}
 }
+
