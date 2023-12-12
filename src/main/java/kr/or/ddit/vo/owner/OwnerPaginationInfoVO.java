@@ -26,6 +26,9 @@ public class OwnerPaginationInfoVO<T> {
 	private String afterDate;	// 시작달
 	private String beforeDate;	// 시작달
 	
+	private String sortType; // 정렬유형
+	private String sortOrder; // 정렬순서
+	
 	
 	public OwnerPaginationInfoVO() {}
 	// PaginationInfoVO 객체를 만들때 한페이지당 게시글 수와 페이지 블록 수를 원하는 값으로 초기화 할 수 있다.

@@ -22,6 +22,6 @@ public interface IFrcsInventoryService {
 	// 신규 제품 업데이트
 	public ServiceResult inventAdd(String frcsId);
 
-//	public void deliveryMinInsert(FrcsInventoryVO frcsVO);
+	public List<FrcsInventoryVO> getSortList(OwnerPaginationInfoVO<FrcsInventoryVO> inventVO);
 
 }

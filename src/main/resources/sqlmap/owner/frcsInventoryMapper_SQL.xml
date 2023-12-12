@@ -12,8 +12,6 @@
 		<result property="propryQy" column="propry_qy"/>
 		<result property="lastwrhousngDate" column="lastwrhousng_date"/>
 		<result property="dlivyQy" column="dlivy_qy"/>
-		
-<!-- 		<collection property="delList" resultMap="delMap"/> -->
 	</resultMap>
 	
 	<resultMap type="delVO" id="delMap">
@@ -33,6 +31,77 @@
 			and (h.vdprod_cd like '%'||upper(#{searchWord})||'%')		
 		</if>
 	</sql>
+	
+	<sql id="sortType">
+		<if test="sortType == 'vdprod_cd'">
+			h.vdprod_cd
+		</if>
+		
+		<if test="sortType == 'vdprod_name'">
+			h.vdprod_name
+		</if>
+		
+		<if test="sortType == 'invntry_qy'">
+			f.invntry_qy
+		</if>
+		
+		<if test="sortType == 'proprt_qy'">
+			f.proprt_qy
+		</if>
+		
+		<if test="sortType == 'hdforward_price'">
+			h.hdforward_price
+		</if>
+		
+		<if test="sortType == 'frcsorder_qy'">
+			frcsorder_qy
+		</if>
+		
+		<if test="sortType == 'dlivy_qy'">
+			dlivy_qy
+		</if>
+	</sql>
+	
+	<sql id="sortType2">
+		<if test="sortType == 'vdprod_cd'">
+			vdprod_cd
+		</if>
+		
+		<if test="sortType == 'vdprod_name'">
+			vdprod_name
+		</if>
+		
+		<if test="sortType == 'invntry_qy'">
+			invntry_qy
+		</if>
+		
+		<if test="sortType == 'proprt_qy'">
+			proprt_qy
+		</if>
+		
+		<if test="sortType == 'hdforward_price'">
+			hdforward_price
+		</if>
+		
+		<if test="sortType == 'frcsorder_qy'">
+			frcsorder_qy
+		</if>
+		
+		<if test="sortType == 'dlivy_qy'">
+			dlivy_qy
+		</if>
+	</sql>
+	
+	
+	<sql id="sortOrder">
+		<if test="sortOrder == 'asc'">
+			asc
+		</if>
+		<if test="sortOrder == 'desc'">
+			desc
+		</if>
+	</sql>
+		
 
 	<select id="getInventList" parameterType="string" resultType="inventVO">
 		select h.vdprod_cd, h.vdprod_name, f.invntry_qy, f.proprt_qy, h.hdforward_price, f.frcs_id, lastwrhousng_date,
@@ -64,7 +133,7 @@
 			b.*
 		from (
 			select 
-				a.*, row_number() over (order by a.vdprod_cd asc) rnum
+				a.*, row_number() over (order by a.<include refid="sortType2"/> <include refid="sortOrder"/>) rnum
 			from(
 				select h.vdprod_cd, h.vdprod_name, f.invntry_qy, f.proprt_qy, h.hdforward_price, f.frcs_id,
 			       (select nvl(sum(d.dlivy_qy),0)
@@ -81,7 +150,7 @@
 					join head_inventory h on f.vdprod_cd = h.vdprod_cd
 					where f.frcs_id = #{frcsId}
 				<include refid="inventSearch"/>
-				order by h.vdprod_cd asc
+				order by <include refid="sortType"/> <include refid="sortOrder"/>
 			)a
 		)b	
 		<![CDATA[	

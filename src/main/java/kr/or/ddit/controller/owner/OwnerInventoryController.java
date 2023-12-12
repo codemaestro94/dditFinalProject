@@ -58,40 +58,13 @@ public class OwnerInventoryController {
 	
 	@PreAuthorize("hasRole('ROLE_OWNER')")
 	@RequestMapping(value="/inventory.do", method = RequestMethod.GET )
-	public String ownerInventoryList(
-			@RequestParam(name="page", required = false, defaultValue = "1") int currentPage,
-			@RequestParam(required = false, defaultValue = "vdprodName") String searchType,
-			@RequestParam(required = false) String searchWord,
-			Model model) {
+	public String ownerInventoryList(Model model) {
 		
 		String frcsId = commService.getFrcsId();
 		
 		//헤더 오른쪽 관리자 영역
 		FranchiseVO frcsHead = myPageService.headerDetail(frcsId);
 		model.addAttribute("frcsHead", frcsHead);
-		
-		// 페이징처리
-		OwnerPaginationInfoVO<FrcsInventoryVO> pagingVO = new OwnerPaginationInfoVO<FrcsInventoryVO>();
-		
-	    // 검색이 이뤄지면 아래가 실행됨
-		if(StringUtils.isNotBlank(searchWord)) {
-			pagingVO.setSearchType(searchType);
-			pagingVO.setSearchWord(searchWord);
-			model.addAttribute("searchType",searchType);
-			model.addAttribute("searchWord",searchWord);
-		}   
-		
-		pagingVO.setFrcsId(frcsId);
-		pagingVO.setCurrentPage(currentPage);	// startRow, endRow, startPage, endPage가 결정
-		int totalRecord = service.selectInventCount(pagingVO);	// 총 게시글 수
-		
-		pagingVO.setTotalRecord(totalRecord);	// totalPage 결정
-		List<FrcsInventoryVO> dataList = service.selectInventList(pagingVO);	// 한 페이지에 해당하는 10개의 데이터
-		pagingVO.setDataList(dataList);
-		
-		// memId로 해당 가맹점 재고현황 가져오기 (페이징 전)
-//		List<FrcsInventoryVO> inventList = service.getInventList(memId);
-		model.addAttribute("pagingVO",pagingVO);
 		model.addAttribute("frcsId",frcsId);
 		
 		return "owner/inventory/list";
@@ -197,5 +170,40 @@ public class OwnerInventoryController {
 	     workbook.close();
 		
 	}
+    
+    // 정렬 기능
+    @ResponseBody
+    @RequestMapping(value="/inventory/inventSort.do", method = RequestMethod.POST )
+    public ResponseEntity<OwnerPaginationInfoVO<FrcsInventoryVO>> inventSort(@RequestBody OwnerPaginationInfoVO<FrcsInventoryVO> inventVO){
+		
+    	
+    	log.info("inventVO!!!" + inventVO);
+    	
+    	if(inventVO.getCurrentPage() == 0) {
+    		inventVO.setCurrentPage(1);
+    	}
+    	
+    	OwnerPaginationInfoVO<FrcsInventoryVO> pagingVO = new OwnerPaginationInfoVO<FrcsInventoryVO>();
+    	
+    	int totalRecord = service.selectInventCount(inventVO);	
+    	List<FrcsInventoryVO> dataList = service.selectInventList(inventVO);
+    	
+    	pagingVO.setCurrentPage(inventVO.getCurrentPage());
+    	pagingVO.setTotalRecord(totalRecord);
+    	pagingVO.setDataList(dataList);
+    	
+    	log.info("pagingVO!!!" + pagingVO);
+
+    	
+    	return new ResponseEntity<OwnerPaginationInfoVO<FrcsInventoryVO>>(pagingVO,HttpStatus.OK);
+    }
+    
 	
 }
+
+
+
+
+
+
+

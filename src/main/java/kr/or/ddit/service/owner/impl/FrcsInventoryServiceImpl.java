@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import kr.or.ddit.ServiceResult;
@@ -133,5 +134,6 @@ public class FrcsInventoryServiceImpl implements IFrcsInventoryService{
 		}
 		return result;
 	}
+
 }
 

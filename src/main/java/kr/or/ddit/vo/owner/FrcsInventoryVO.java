@@ -26,4 +26,5 @@ public class FrcsInventoryVO {
 	private String tradNo;	// 트레이딩 번호
 	private int tradQy;	// 트레이딩 수량 
 	private String frcsId2;	// 응답할 가맹점(트레이딩 재고 -처리할...)
+	
 }
