@@ -34,8 +34,8 @@
 		                    <div class="row mb-2">
 		                    <!-- 검색창 -->
 		                        <div class="col-xl-8">
- 									<form id="searchForm" class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">		                                
- 									<input type="hidden" name="page" id="page"/>
+						<form id="searchForm" class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">		                                
+						<input type="hidden" name="page" id="page"/>
 		                                <div class="col-auto">
 		                                    <div class="d-flex align-items-center">
 		                                        <label for="searchType" class="me-2"></label>
