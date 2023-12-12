@@ -83,40 +83,40 @@
 		                                                           <td style="text-align:center">
 		                                                           	  매출액
 		                                                           </td>
-		                                                           <td style="text-align:center" id="totalPriceTd"><fmt:formatNumber value="${oper.sales }" type="number"/>(원)</td>
+		                                                           <td style="text-align:center" id="salesTd"><fmt:formatNumber value="${oper.sales }" type="number"/>(원)</td>
 		                                                       </tr>
 		                                                       <tr>
 		                                                           <td style="text-align:center">
 		                                                           	  본사 청구액
 		                                                           </td>
-		                                                           <td style="text-align:center" id="totalorderPriceTd">-<fmt:formatNumber value="${oper.headCharge }" type="number"/>(원)         
+		                                                           <td style="text-align:center" id="headChargeTd">-<fmt:formatNumber value="${oper.headCharge }" type="number"/>(원)         
 		                                                           </td>
 		                                                       </tr>
 		                                                       <tr>
 		                                                           <td style="text-align:center">
 		                                                           	  인건비
 		                                                           </td>
-		                                                           <td style="text-align:center" id="totalorderPriceTd">-<fmt:formatNumber value="${oper.pay }" type="number"/>(원)</td>
+		                                                           <td style="text-align:center" id="payTd">-<fmt:formatNumber value="${oper.pay }" type="number"/>(원)</td>
 		                                                       </tr>
 		                                                       <tr>
 		                                                           <td style="text-align:center">
 		                                                           	  공과금 및 월세
 		                                                           </td>
-		                                                           <td style="text-align:center" id="totalorderPriceTd">-<fmt:formatNumber value="${oper.publicDues }" type="number"/>(원)        
+		                                                           <td style="text-align:center" id="publicDuesTd">-<fmt:formatNumber value="${oper.publicDues }" type="number"/>(원)        
 		                                                           </td>
 		                                                       </tr>
 		                                                       <tr style="background-color: lightyellow;">
 		                                                           <td style="text-align:center">
 		                                                           	  영업 이익
 		                                                           </td>
-		                                                           <td style="text-align:center" id="totalorderPriceTd"><fmt:formatNumber value="${oper.operationProfit }" type="number"/>(원)        
+		                                                           <td style="text-align:center" id="operationProfitTd"><fmt:formatNumber value="${oper.operationProfit }" type="number"/>(원)        
 		                                                           </td>
 		                                                       </tr>
 		                                                       <tr style="background-color: lightyellow;">
 		                                                           <td style="text-align:center">
 		                                                           	 당기 순이익
 		                                                           </td>
-		                                                           <td style="text-align:center" id="totalorderPriceTd"><fmt:formatNumber value="${oper.currentIncome }" type="number"/>(원)       
+		                                                           <td style="text-align:center" id="currentIncomeTd"><fmt:formatNumber value="${oper.currentIncome }" type="number"/>(원)       
 		                                                           </td>
 		                                                       </tr>
                                                    		</c:otherwise>
@@ -124,15 +124,6 @@
                                                  </tbody>
                                        		</table>
                                        </div> 
-<!--                                        <div class="row mt-4"> -->
-<!--                                            <div class="col-sm-6"> -->
-<!--                                            </div> -->
-<!--                                            <div class="col-sm-6"> -->
-<!--                                                <div class="text-sm-end" id="total"> -->
-<%--                                                   	<h4>총계 : <fmt:formatNumber value="${oneList.totalPrice-oneList.totalorderPrice }" type="currency"/></h4> --%>
-<!--                                                </div> -->
-<!--                                            </div> -->
-<!--                                        </div> -->
                                        </div>
 	
                                        <div class="col-lg-6">
@@ -165,10 +156,19 @@ $(function(){
 	var frcsId = $("#frcsId").val();	// 프랜차이즈 아이디
 	var mainText = $("#mainText");	// 제목
 	
+	var salesTd = $("#salesTd");	// 매출액
+	var headChargeTd = $("#headChargeTd");	// 본사청구액
+	var payTd = $("#payTd");	// 인건비
+	var publicDuesTd = $("#publicDuesTd");	// 공과금 및 월세
+	var operationProfitTd = $("#operationProfitTd");	// 영업 이익
+	var currentIncomeTd = $("#currentIncomeTd");	// 당기 순이익
+	
+	
 	// 왼쪽 버튼을 누르면 현재 페이지의 ${yearMonth }를 가져와서
 	// 월 -1 을 해줘야한다.
 	// 만약에 월이 1이면 년-1 하고 월을 12로 셋팅을 하게끔
-	leftMonth.on("click",function(){
+		
+	$(document).on("click", "#leftMonth", function(){
 		console.log(monthInfo);	
 		var monthStr = ""+ monthInfo;
 		var yearMonth = []; 
@@ -204,7 +204,7 @@ $(function(){
 		location.href = "/owner/operationProfit.do?yearMonth="+str;
 	});
 	
-	rightMonth.on("click",function(){
+	$(document).on("click", "#rightMonth", function(){
 		var monthStr = ""+ monthInfo;
 		var yearMonth = []; 
 		var thisYear =  monthStr.split("/")[0];	// 년
@@ -264,7 +264,7 @@ $(function(){
 		
 		$.ajax({
 			type : "post",
-			url : "/owner/totalProfit/"+monthParam+".do",
+			url : "/owner/operationProfit/"+monthParam+".do",
 			data : JSON.stringify(data),
 			beforeSend : function(xhr){	// csrf토큰 보내기 위함
 				xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");	//key value로 보낸다.
@@ -272,8 +272,8 @@ $(function(){
 			contentType : "application/json; charset=utf-8",
 			success : function(res){
 				
-				console.log(res);
-// 				var thisMonth = res.thisMonth;
+				var thisMonth = res.thisMonth;
+				
 // 				var intTotalPrice = res.totalPrice;	// 매출
 // 				var intTotalorderPrice = res.totalorderPrice;	// 매입
 // 				var totalPrice = intTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -281,11 +281,11 @@ $(function(){
 // 				var minus = intTotalPrice-intTotalorderPrice;
 // 				var intTotal = minus.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 			
-// 				var year =  thisMonth.split("/")[0];	 // 년
-// 				var month = thisMonth.split("/")[1];	 // 월
+				var year =  thisMonth.split("/")[0];	 // 년
+				var month = thisMonth.split("/")[1];	 // 월
 				
-// 				var intYear = parseInt(year);
-// 				var intMonth = parseInt(month);
+				var intYear = parseInt(year);
+				var intMonth = parseInt(month);
 				
 				
 // 				if(monthParam === "oneMonth"){
@@ -325,34 +325,39 @@ $(function(){
 				
 				
 // 				// 6개월
-// 				if(monthParam == "sixMonth"){
-// 					var pre = 0;
-// 					var str = "";
+				if(monthParam == "sixMonth"){
+					var pre = 0;
+					var str = "";
 					
-// 					if((intMonth+7)<13){
-// 						intYear= intYear-1;
-// 						pre = intMonth+7;
-// 						if(pre < 10){
-// 							pre = "0"+pre;
-// 						}
-// 					}else{
-// 						pre = (intMonth+7)-12;
-// 						if(pre < 10){
-// 							pre = "0"+pre;
-// 						}
-// 					}
-// 					str += '<a href="javascript:void(0);" id="leftMonth">';
-// 	           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
-// 	           		str += intYear+"/"+pre+"~"+year+"/"+month+ "월 매출 총이익 분석";
-// 	           		str += '<a href="javascript:void(0);" id="rightMonth">';
-// 	           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
-// 				}
+					if((intMonth+7)<13){
+						intYear= intYear-1;
+						pre = intMonth+7;
+						if(pre < 10){
+							pre = "0"+pre;
+						}
+					}else{
+						pre = (intMonth+7)-12;
+						if(pre < 10){
+							pre = "0"+pre;
+						}
+					}
+					str += '<a href="javascript:void(0);" id="leftMonth">';
+	           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
+	           		str += intYear+"/"+pre+"~"+year+"/"+month+ "월 순이익 분석";
+	           		str += '<a href="javascript:void(0);" id="rightMonth">';
+	           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
+				}
 				
-// 				mainText.html(str);
+				mainText.html(str);
 				
-// 				var totalStr = "";
-// 				totalStr += "<h4>총계 : ￦"+intTotal+"</h4>"
-// 				console.log(totalPrice)
+				salesTd.text("1");	// 매출액
+				headChargeTd.text();	// 본사청구액
+				payTd.text();	// 인건비
+				publicDuesTd.text();	// 공과금 및 월세
+				operationProfitTd.text();	// 영업 이익
+				currentIncomeTd.text();	// 당기 순이익
+				
+				
 				
 // 				totalPriceTd.text("￦"+totalPrice);	// 매출액
 // 				totalorderPriceTd.text("-￦"+totalorderPrice);	// 매입가

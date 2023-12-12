@@ -148,7 +148,7 @@ $(function(){
 	// 왼쪽 버튼을 누르면 현재 페이지의 ${yearMonth }를 가져와서
 	// 월 -1 을 해줘야한다.
 	// 만약에 월이 1이면 년-1 하고 월을 12로 셋팅을 하게끔
-	leftMonth.on("click",function(){
+	 $(document).on("click", "#leftMonth", function(){
 		console.log(monthInfo);	
 		var monthStr = ""+ monthInfo;
 		var yearMonth = []; 
@@ -184,7 +184,7 @@ $(function(){
 		location.href = "/owner/purchaseAnalysis.do?yearMonth="+str;
 	});
 	
-	rightMonth.on("click",function(){
+	 $(document).on("click", "#rightMonth", function(){
 		var monthStr = ""+ monthInfo;
 		var yearMonth = []; 
 		var thisYear =  monthStr.split("/")[0];	// 년
@@ -192,9 +192,6 @@ $(function(){
 		
 		var intYear = parseInt(thisYear);
 		var intMonth = parseInt(thisMonth);
-		
-		console.log(intYear);
-		console.log(intMonth);
 		
 		// location.href에 넣어줄 year와 month
 		var year = 0;
@@ -305,6 +302,12 @@ $(function(){
 						str += '<a href="javascript:void(0);" id="leftMonth">';
 		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
 		           		str += (intYear-1)+"/12~"+year+"/"+month+ "월 매입 분석";
+		           		str += '<a href="javascript:void(0);" id="rightMonth">';
+		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
+					}else if(intMonth == 12){ 	// 12월이면
+						str += '<a href="javascript:void(0);" id="leftMonth">';
+		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
+		           		str += year+"/10~"+year+"/"+month+ "월 매입 분석";
 		           		str += '<a href="javascript:void(0);" id="rightMonth">';
 		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
 					}else{
