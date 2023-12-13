@@ -416,7 +416,6 @@ $(function(){
 	// 적정 재고수량 - 버튼 눌렀을 때 숫자 증가
 	plusMinus(".proprtDown",".proprtQyInput",false);
 
-	
 	// 3자리 단위로 ,찍기
 	function formatNumber(number) {
 	    return new Intl.NumberFormat('ko-KR').format(number);
