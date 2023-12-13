@@ -113,9 +113,10 @@
 											           <div class="modal-body">
 											           <div class="mb-3">
 														<div class="input-group" style="display: flex; justify-content: space-between; align-items: center;">
-														    <h5 style="display:inline;">합계 <input type="text" class="addSalesTotal" readonly style="display:inline;"></h5>
-														    <button type="button" class="btn btn-success" id="autoBtn">자동완성</button>
-														</div>				                        <br>
+														    <h5 style="display:inline;">합계 <input type="text" class="addSalesTotal" readonly style="text-align:right;">(원)</h5>
+<!-- 														    <button type="button" class="btn btn-success" id="autoBtn">자동완성</button> -->
+														</div>				                        
+														<br>
 								                        <div class="card-body py-0" data-simplebar style="max-height: 580px;">
 											               <table class="table table-hover">
 											                   <thead>
@@ -131,13 +132,15 @@
 											                       <c:forEach items="${frcsMenuList }" var="list">
 											                           <tr>
 												                           <td class="" style="vertical-align:middle;">
-																		       <div class="form-check">
-																		            <input type="checkbox" class="form-check-input checkBox">
-																		       </div>
+<!-- 																		       <div class="form-check"> -->
+<!-- 																		            <input type="checkbox" class="form-check-input checkBox"> -->
+<!-- 																		       </div> -->
 																	       </td>
 											                               <td class="menuCd" style="text-align:center; vertical-align:middle;">${list.menuCd }</td>
 											                               <td class="menuName" style="text-align:center; vertical-align:middle;">${list.menuName }</td>
-											                               <td class="menuPrice" style="text-align:center; vertical-align:middle;">${list.menuPrice }</td>
+											                               <td class="menuPrice" style="text-align:center; vertical-align:middle;">
+											                               <fmt:formatNumber value="${list.menuPrice }" type="number"/>(원)											                               
+											                               </td>
 											                               <td class="saleCount" style="text-align:center; width: 180px;" >
 												                               <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
 												                               		<span class="input-group-btn input-group-prepend"><button class="btn btn-primary bootstrap-touchspin-down saleCountDown" type="button">-</button></span>
@@ -196,10 +199,6 @@
                             		<c:forEach items="${salesList }" var="salesList" varStatus="stat">
 	                            		<tr class="view">
 		                                    <td>
-<!-- 		                                        <div class="form-check"> -->
-<!-- 		                                            <input type="checkbox" class="form-check-input" id="customCheck2"> -->
-<!-- 		                                            <label class="form-check-label" for="customCheck2">&nbsp;</label> -->
-<!-- 		                                        </div> -->
 		                                    </td>
 		                                    <td style="text-align:center" class="selngDate"><fmt:formatDate value="${salesList.selngDate }" pattern="yyyy년 MM월 dd일 매출내역"/></td>
 		                                    <td style="text-align:center"><fmt:formatNumber value="${salesList.totalPrice }" type="number"/>(원)</td>
@@ -207,7 +206,7 @@
 		                                    <td style="text-align:center">
 			                                    <button type="button" class="btn btn-danger updateBtn" data-bs-toggle="modal" data-bs-target="#updateModal${stat.index }" data-selngdate="${salesList.selngDate}">수정</button>
 			                                    <!-- 수정 모달 -->
-			                                    <div id="updateModal${stat.index }" class="modal fade modalArea" tabindex="-1" role="dialog" aria-hidden="true" data-bs-show="false">
+			                                    <div id="updateModal${stat.index }" class="modal fade updateModal" tabindex="-1" role="dialog" aria-hidden="true" data-bs-show="false">
 												    <div class="modal-dialog modal-lg modal-dialog-centered">
 													        <div class="modal-content">
 													        	<div class="modal-header">
@@ -216,10 +215,9 @@
 														           </div>
 														           <div class="modal-body">
 														           <div class="mb-3">
-														           <div class="input-group d-flex justify-content-end">
-																	<h5>합계
-																	<input type="text" class="salesTotal" readonly>
-																	</h5>
+														           
+														           <div class="input-group" style="display: flex; justify-content: space-between; align-items: center;">
+																	<h5 style="display:inline;">합계<input type="text" class="salesTotal" readonly style="text-align:right;">(원)</h5>
 											                        </div>
 											                        <div class="card-body py-0" data-simplebar style="max-height: 580px;">
 														               <table class="table table-hover">
@@ -234,16 +232,16 @@
 														                   </thead>
 														                   <tbody class="updateModalBody">
 														                       <c:forEach items="${frcsMenuList }" var="list">
-														                          
 														                           <tr>
 															                           <td class="" style="vertical-align:middle;">
-																					       <div class="form-check">
-																					            <input type="checkbox" class="form-check-input checkBox">
-																					       </div>
+<!-- 																					       <div class="form-check"> -->
+<!-- 																					            <input type="checkbox" class="form-check-input checkBox"> -->
+<!-- 																					       </div> -->
 																				       </td>
 														                               <td class="menuCd" style="text-align:center; vertical-align:middle;">${list.menuCd }</td>
 														                               <td class="menuName" style="text-align:center; vertical-align:middle;">${list.menuName }</td>
-														                               <td class="menuPrice" style="text-align:center; vertical-align:middle;">${list.menuPrice }</td>
+														                               <td class="menuPrice" style="text-align:center; vertical-align:middle;">
+														                               <fmt:formatNumber type="number" value="${list.menuPrice }"/>(원)</td>
 														                               <td class="saleCount" style="text-align:center; width: 180px;" >
 															                               <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
 															                               		<span class="input-group-btn input-group-prepend"><button class="btn btn-primary bootstrap-touchspin-down saleCountDown" type="button">-</button></span>
@@ -338,31 +336,6 @@ $(function(){
 		searchForm.submit();
 	});
 	
-	// 등록 + 버튼
-	modalBody.on("click",".saleCountUp",function(){
-		var tr = $(this).parents('tr');
-		var input = tr.children('td').find('.saleCountInput');
-		var inputVal = parseInt(tr.children('td').find('.saleCountInput').val());
-		
-		inputVal += 1;
-		input.val(inputVal);
-	});
-	
-	// 등록 - 버튼
-	modalBody.on("click",".saleCountDown",function(){
-		var tr = $(this).parents('tr');
-		var input = tr.children('td').find('.saleCountInput');
-		console.log(input);
-		var inputVal = parseInt(tr.children('td').find('.saleCountInput').val());
-		
-		if(inputVal > 0){
-			inputVal -= 1;
-			input.val(inputVal);
-		}else{
-			input.val(inputVal);
-		}
-	});
-	
 	// 수정 + 버튼
 	updateModalBody.on("click",".saleCountUp",function(){
 		var tr = $(this).closest('tr');
@@ -390,54 +363,96 @@ $(function(){
 	
 		
 	// 등록 모달 체크박스 선택 시 합계 자동 추가
-	$(document).on("change", "#multiple-two .checkBox", function () {
-		
-	var total = 0;
+	// >> 체크박스 삭제 후 input 요소에 값을 입력하면 자동으로 합계 추가되게끔 변경
+	$(document).on("input", ".saleCountInput", function () {
+		var total = 0;
  		
- 		$("#multiple-two .checkBox").each(function(){
+ 		$(".saleCountInput").each(function(){
 			var row = $(this).closest('tr');
-			var menuPrice = parseInt(row.find(".menuPrice").text());
+			var menuPrice = stringNumberToInt(row.find(".menuPrice").text());
 			var saleCount = parseInt(row.find(".saleCountInput").val());
 			
-			console.log(menuPrice);
-			console.log(saleCount);
+			console.log("menuPrice : " + menuPrice);
 			
 			total += (menuPrice*saleCount);
  		});	
- 		$("#multiple-two").find(".addSalesTotal").val(total);
+ 		$("#multiple-two").find(".addSalesTotal").val(formatNumber(total));
  	});
+	
+	// 등록 모달창 + 버튼
+	modalBody.on("click",".saleCountUp",function(){
+		var tr = $(this).parents('tr');
+		var input = tr.children('td').find('.saleCountInput');
+		var inputVal = parseInt(tr.children('td').find('.saleCountInput').val());
+		var total = 0;
+		
+		inputVal += 1;
+		input.val(inputVal);
+		
+		$(".saleCountInput").each(function(){
+			var row = $(this).closest('tr');
+			var menuPrice = stringNumberToInt(tr.find(".menuPrice").text());
+			var saleCount = parseInt(row.find(".saleCountInput").val());
+	
+			total += (menuPrice*saleCount);
+		});
+		
+		console.log(total);
+		$("#multiple-two").find(".addSalesTotal").val(formatNumber(total));
+	});
+	
+	// 등록모달창 - 버튼
+	modalBody.on("click",".saleCountDown",function(){
+		var tr = $(this).parents('tr');
+		var input = tr.children('td').find('.saleCountInput');
+		var inputVal = parseInt(tr.children('td').find('.saleCountInput').val());
+		
+		var total = 0;
+		
+		if(inputVal > 0){
+			inputVal -= 1;
+			input.val(inputVal);
+		}else{
+			input.val(inputVal);
+		}
+		
+		$(".saleCountInput").each(function(){
+			var row = $(this).closest('tr');
+			var menuPrice = stringNumberToInt(tr.find(".menuPrice").text());
+			var saleCount = parseInt(row.find(".saleCountInput").val());
+	
+			total += (menuPrice*saleCount);
+		});
+		$("#multiple-two").find(".addSalesTotal").val(formatNumber(total));
+		console.log(total);
+		
+	});
 	
 	// 등록 버튼을 누르면
 	addBtn.on("click",function(){
-	// 일단 체크한 애들 데이터 가져오자...
-		var checkedList = [];
 		
-		// 체크된 박스
-		var checkedBoxes = $(".checkBox:checked");
+		var inputEle = $(".modalBody .saleCountInput");
 		
-		// 체크된 것이 없으면
-		if(checkedBoxes.length == 0){
-			Swal.fire({
-	            title: "체크박스 누락",
-	            text: "선택된 메뉴가 없습니다.",
-	            confirmButtonText: "확인",
-	            icon: "error",
-	            preConfirm: function () {
-	            }
-	        });
-		}else{
-			var selngDate = $("#selngDate").val();
-			console.log(selngDate);
-			var total = 0;
-			for(var i=0; i<checkedBoxes.length; i++){
-				var tr = checkedBoxes.eq(i).parents('tr');
+		// input요소 입력된 것들 가져오기
+		var inputList = [];
+		
+		var selngDate = $("#selngDate").val();
+		var total = 0;
+		
+		// input요소 입력된 것들 배열에 담기
+		for(var i=0; i<inputEle.length; i++){
+			if(inputEle[i].value > 0){
+				var tr = inputEle.eq(i).parents('tr');
 				var menuCd = tr.children('td').eq(1).text();	// 메뉴코드
-				var	selngPrice = tr.children('td').eq(3).text();	// 메뉴가격
+				var	selngPrice = stringNumberToInt(tr.children('td').eq(3).text());	// 메뉴가격
+				
+				console.log(selngPrice);
+				
 				var selngQy = tr.children('td').eq(4).find('.saleCountInput').val();	// 개수
 				var frcsId = $("#frcsId").val();
 				total += (selngPrice*selngQy);
 				
-				checkedList.push({
+				inputList.push({
 					frcsId : frcsId,
 					menuCd : menuCd,
 					selngPrice : selngPrice,
@@ -445,7 +460,49 @@ $(function(){
 					selngDate : selngDate
 				});
 			}
-				$(".addSalesTotal").val(total);
+		}
+		
+		console.log(inputEle.length);
+		console.log("inputList : " + inputList);
+		
+		
+// 	// 일단 체크한 애들 데이터 가져오자...
+// 		var checkedList = [];
+		
+// 		// 체크된 박스
+// 		var checkedBoxes = $(".checkBox:checked");
+		
+// 		// 체크된 것이 없으면
+// 		if(checkedBoxes.length == 0){
+// 			Swal.fire({
+// 	            title: "체크박스 누락",
+// 	            text: "선택된 메뉴가 없습니다.",
+// 	            confirmButtonText: "확인",
+// 	            icon: "error",
+// 	            preConfirm: function () {
+// 	            }
+// 	        });
+// 		}else{
+// 			var selngDate = $("#selngDate").val();
+// 			console.log(selngDate);
+// 			var total = 0;
+// 			for(var i=0; i<inputList.length; i++){
+// 				var tr = inputList.eq(i).parents('tr');
+// 				var menuCd = tr.children('td').eq(1).text();	// 메뉴코드
+// 				var	selngPrice = tr.children('td').eq(3).text();	// 메뉴가격
+// 				var selngQy = tr.children('td').eq(4).find('.saleCountInput').val();	// 개수
+// 				var frcsId = $("#frcsId").val();
+// 				total += (selngPrice*selngQy);
+				
+// 				checkedList.push({
+// 					frcsId : frcsId,
+// 					menuCd : menuCd,
+// 					selngPrice : selngPrice,
+// 					selngQy : selngQy,
+// 					selngDate : selngDate
+// 				});
+// 			}
+				$(".addSalesTotal").val(formatNumber(total));
 				
 			$.ajax({
 				type : "post",
@@ -453,7 +510,7 @@ $(function(){
 				beforeSend : function(xhr){	// csrf토큰 보내기 위함
 					xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");	//key value로 보낸다.
 				},
-				data : JSON.stringify(checkedList),
+				data : JSON.stringify(inputList),
 				contentType : "application/json; charset=utf-8",
 				success : function(res){
 					if(res == "OK"){
@@ -469,39 +526,8 @@ $(function(){
 					}
 				}
 			});
-		}
-	});
+		});
 	
-	
-	// 자동 완성
-	$("#autoBtn").on("click", function () {
-	    var modalBody = $(".modalBody");
-	    var total = 0;
-	
-	    for (var i = 0; i < 11; i++) {
-			
-	    	var tr = modalBody.find('tr').eq(i);
-	    	console.log("tr", tr);
-	    		
-	        var checkbox = tr.find(".checkBox");
-	    	console.log("checkbox", checkbox);
-			
-	    	var saleCountInput = tr.find(".saleCountInput");
-	    	console.log("saleCountInput", saleCountInput);
-
-	    	checkbox.prop("checked", true);
-	        saleCountInput.val(10);
-	    	
-
-	        var menuPrice = parseInt(tr.find(".menuPrice").text());
-	        console.log("menuPrice : " + menuPrice);
-	
-	        total += (menuPrice * 10);
-	    }
-	
-	    $("#multiple-two").find(".addSalesTotal").val(total);
-	});
-		
 	
 	// 일일 매출 등록 중복 체크
 	nextBtn.on("click",function(){
@@ -545,21 +571,23 @@ $(function(){
      	$(modalId).modal('show'); // 모달을 표시
      	
      	// 체크박스 선택 시 총합계 변화
-     	$(modalId).on("change", ".checkBox", function(){
+     	// >> 체크박스 삭제, input 값 변경시 총 합계 변화
+     	$(modalId).on("input", ".saleCountInput", function(){
      		var total = 0;
      		
-     		$(modalId).find(".checkBox:checked").each(function(){
+     		$(modalId).find(".saleCountInput").each(function(){
 				var row = $(this).closest('tr');
-				var menuPrice = parseInt(row.find(".menuPrice").text());
+				var menuPrice = stringNumberToInt(row.find(".menuPrice").text());
 				var saleCount = parseInt(row.find(".saleCountInput").val());
 				
-				console.log(menuPrice);
+				
+				console.log("menuPrice : " + menuPrice);
 				console.log(saleCount);
 				
 				total += (menuPrice*saleCount);
      		});	
      		
-     		$(modalId).find(".salesTotal").val(total);
+     		$(modalId).find(".salesTotal").val(formatNumber(total));
      	});
      	
 		// 누른버튼의 날짜 정보 가져오기
@@ -604,13 +632,13 @@ $(function(){
 			        // 해당 행 판매수량 업데이트
 			        row.find('.saleCountInput').val(selngQy);
 			        // 해당 행 체크박스 checked
-			        row.find('.checkBox').prop("checked", true);
+// 			        row.find('.checkBox').prop("checked", true);
 			       
-			        var menuPrice = row.children('.menuPrice').eq(0).text();	// 메뉴가격
+			        var menuPrice = stringNumberToInt(row.children('.menuPrice').eq(0).text());	// 메뉴가격
 			        totalPrice += (menuPrice*selngQy);
 			        
 				}
-			        $(".salesTotal").val(totalPrice);
+			        $(".salesTotal").val(formatNumber(totalPrice));
 			}
 		});
 	});
@@ -622,51 +650,76 @@ $(function(){
      	$(modalId).modal('show'); // 모달을 표시
      	console.log(modalId);
      	
-		// 일단 체크한 애들 데이터 가져오자...
-		var checkedList = [];
+     	
+// 		// 일단 체크한 애들 데이터 가져오자...
+// 		var checkedList = [];
 		
-		// 체크된 박스
-		var checkedBoxes = $(modalId).find(".checkBox:checked");
+// 		// 체크된 박스
+// 		var checkedBoxes = $(modalId).find(".checkBox:checked");
 		
-		// 체크된 것이 없으면
-		if(checkedBoxes.length == 0){
-			Swal.fire({
-	            title: "체크박스 누락",
-	            text: "선택된 메뉴가 없습니다.",
-	            confirmButtonText: "확인",
-	            icon: "error",
-	            preConfirm: function () {
-	            }
-	        });
-		}else{
+// 		// 체크된 것이 없으면
+// 		if(checkedBoxes.length == 0){
+// 			Swal.fire({
+// 	            title: "체크박스 누락",
+// 	            text: "선택된 메뉴가 없습니다.",
+// 	            confirmButtonText: "확인",
+// 	            icon: "error",
+// 	            preConfirm: function () {
+// 	            }
+// 	        });
+// 		}else{
 			var selngDateStrTemp = $(this).parents('tr').find('.selngDateOwn').text();		
 			var selngDateStr = selngDateStrTemp+" "+"09:00:00.0000000000"
 			console.log("selngDateStr" , selngDateStr);
 			
-			for(var i=0; i<checkedBoxes.length; i++){
-				var tr = checkedBoxes.eq(i).parents('tr');
-				var menuCd = tr.children('td').eq(1).text();	// 메뉴코드
-				var	selngPrice = tr.children('td').eq(3).text();	// 메뉴가격
-				var selngQy = tr.children('td').eq(4).find('.saleCountInput').val();	// 개수
-				var frcsId = $("#frcsId").val();
-				
-				checkedList.push({
-					frcsId : frcsId,
-					menuCd : menuCd,
-					selngPrice : selngPrice,
-					selngQy : selngQy,
-					selngDateStr : selngDateStr
-				});
-				
+			var inputEle = $(modalId).find(".saleCountInput");
+			
+//	 		// input요소 입력된 것들 가져오기
+			var inputList = [];
+			
+//	 		// input요소 입력된 것들 배열에 담기
+			for(var i=0; i<inputEle.length; i++){
+				if(inputEle[i].value > 0){
+					var tr = inputEle.eq(i).parents('tr');
+					var menuCd = tr.children('td').eq(1).text();	// 메뉴코드
+					var	selngPrice = stringNumberToInt(tr.children('td').eq(3).text());	// 메뉴가격
+					
+					var selngQy = tr.children('td').eq(4).find('.saleCountInput').val();	// 개수
+					var frcsId = $("#frcsId").val();
+					
+					inputList.push({
+						frcsId : frcsId,
+						menuCd : menuCd,
+						selngPrice : selngPrice,
+						selngQy : selngQy,
+						selngDateStr : selngDateStr
+					});
+				}
 			}
-				console.log(checkedList);
+			
+			
+// 			for(var i=0; i<checkedBoxes.length; i++){
+// 				var tr = checkedBoxes.eq(i).parents('tr');
+// 				var menuCd = tr.children('td').eq(1).text();	// 메뉴코드
+// 				var	selngPrice = tr.children('td').eq(3).text();	// 메뉴가격
+// 				var selngQy = tr.children('td').eq(4).find('.saleCountInput').val();	// 개수
+// 				var frcsId = $("#frcsId").val();
+				
+// 				checkedList.push({
+// 					frcsId : frcsId,
+// 					menuCd : menuCd,
+// 					selngPrice : selngPrice,
+// 					selngQy : selngQy,
+// 					selngDateStr : selngDateStr
+// 				});
+// 			}
 			$.ajax({
 				type : "post",
 				url : "/owner/dailyUpdate.do",
 				beforeSend : function(xhr){	// csrf토큰 보내기 위함
 					xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");	//key value로 보낸다.
 				},
-				data : JSON.stringify(checkedList),
+				data : JSON.stringify(inputList),
 				contentType : "application/json; charset=utf-8",
 				success : function(res){
 					if(res == "OK"){
@@ -682,8 +735,6 @@ $(function(){
 					}
 				}
 			});
-		}
-			
 	});
 	
 	// 주간 차트 weekChart
@@ -796,12 +847,30 @@ $(function(){
 			  }
 			});
 	
-	// 모달이 숨겨질 때마다 이벤트 처리
+	// 등록 모달창 숨겨질 때마다 이벤트 처리
 	$('.modalArea').on('hidden.bs.modal', function(e) {
-	    $(this).find('.saleCountInput').val(0); // 입력값 초기화
-	    $(this).find('#selngDate').val(); // 입력값 초기화
-	    $(this).find('.checkBox').prop("checked", false); // 체크박스 초기화
+		$(this).find('.saleCountInput').val(0);	// 수량 입력값 0으로 초기화
+		$(this).find('.addSalesTotal').val(0);	// 합계 금액 0으로 초기화
 	});
+	
+	// 수정 모달창 숨겨질때마다 이벤트 처리
+	$('.updateModal').on('hidden.bs.modal', function(e) {
+		var modalEle = $(".updateModal").find('.saleCountInput');
+		var totalEle = $(".updateModal").find('.salesTotal');
+		modalEle.val(0);
+		totalEle.val(0);
+	});
+	
+	// 3자리 단위로 ,찍기
+	function formatNumber(number) {
+	    return new Intl.NumberFormat('ko-KR').format(number);
+	}
+	
+	// ,찍혀있는거 다시 정수형으로 변환
+	function stringNumberToInt(stringNumber){
+		return parseInt(stringNumber.replace(/,/g , ''));
+	}
+	
 });
 
 </script>
