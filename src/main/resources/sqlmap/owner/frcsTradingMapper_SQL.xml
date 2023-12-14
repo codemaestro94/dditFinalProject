@@ -13,6 +13,37 @@
 		</if>
 	</sql>
 	
+	<sql id="sendReceiveSearch">
+		<if test="sendReceive !=null and sendReceive== 'all'">
+			and t.frcs_id = #{frcsId} or frcs_id2 = #{frcsId}
+		</if>
+		<if test="sendReceive !=null and sendReceive== 'receive'">
+			and frcs_id2 = #{frcsId}
+		</if>
+		<if test="sendReceive !=null and sendReceive== 'send'">
+			and t.frcs_id = #{frcsId}
+		</if>
+	</sql>
+	
+	<sql id="progressSearch">
+		<if test="progress !=null and progress=='all'">
+			and trad_stts in('수락','거절','요청')
+		</if>
+		
+		<if test="progress !=null and progress=='requesting'">
+			and trad_stts = '요청'
+		</if>
+		
+		<if test="progress !=null and progress=='completed'">
+			and trad_stts = '수락'
+		</if>
+		
+		<if test="progress !=null and progress=='refuse'">
+			and trad_stts = '거절'
+		</if>
+	</sql>
+	
+	
 	<!-- 내 가맹점 정보 조회 -->
 	<select id="getLocation" parameterType="string" resultType="franchiseVO">
 		select frcs_xmap, frcs_ymap, frcs_add1, frcs_name, frcs_id
@@ -72,7 +103,10 @@
 					from trading t
 					inner join head_inventory h on t.vdprod_cd = h.vdprod_cd
 					inner join franchise f on t.frcs_id = f.frcs_id
-					where t.frcs_id = #{frcsId} or frcs_id2 = #{frcsId}
+					where 1=1
+					<include refid="sendReceiveSearch"/>
+					<include refid="progressSearch"/>
+					
 					order by trad_date desc
 				)a		
 			)b

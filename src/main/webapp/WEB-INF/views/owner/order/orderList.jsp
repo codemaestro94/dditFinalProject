@@ -80,16 +80,16 @@
 		                            			<tr	class="addTr" >
 				                                    <td style="text-align:center"><p data-prodCd="${invent.vdprodCd }" align="center" style="margin: 0;">${invent.vdprodCd }</p></td>
 				                                    <td style="text-align:center" class="vdProdNameTd">${invent.vdprodName }</td>
-					                                <td style="text-align:center" class="invntryQyTd">${invent.invntryQy }</td>
+					                                <td style="text-align:center" class="invntryQyTd">${invent.invntryQy }개</td>
 				                                    <td style="text-align:center" class="hdforwardPriceTd">
-				                                    <fmt:formatNumber value="${invent.hdforwardPrice }" type="number"/></td>
+				                                    <fmt:formatNumber value="${invent.hdforwardPrice }" type="number"/>(원)</td>
 				                                    <td style="text-align:center">
 					                                    <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected"><span class="input-group-btn input-group-prepend"><button class="btn btn-primary bootstrap-touchspin-down orderDown" type="button">-</button></span>
 					                                    <input data-toggle="touchspin" type="text" value="0" class="form-control text-end orderQyInput">
 					                                    <span class="input-group-btn input-group-append"><button class="btn btn-primary bootstrap-touchspin-up orderUp" type="button">+</button></span></div>
 				                                    </td>
 				                                    <td style="text-align:center">
-				                                    	<span class="orderTotal">0</span>
+				                                    	<span class="orderTotal">0(원)</span>
 				                                    </td>
 				                                    <td style="text-align:center">
 														<button type="button" class="btn btn-info addBtn">추가</button>
@@ -115,7 +115,7 @@
 		                <div class="card-body">
 		                	<div class="row mb-2">
 		                        <div class="col-xl-8"><h4 class="mt-1 mb-3">발주 리스트</h4></div>
-		                        <div class="col-xl-3"><h4 class="mt-1 mb-3">총 발주 금액<input type="number" class="text-end" id="totalPrice" disabled style="margin-left: 1rem;" ></h4></div>
+		                        <div class="col-xl-3"><h4 class="mt-1 mb-3">총 발주 금액<input type="text" class="text-end" id="totalPrice" disabled style="margin-left: 1rem;" >(원)</h4></div>
 		                        <div class="col-xl-1">
 	                            <!-- 모달 1 -->
 								<div id="multiple-one" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="centermodal">
@@ -172,12 +172,12 @@
 												<tr class="addTr">
 													<td style="text-align:center" class="addTrProdCd">${auto.vdprodCd }</td>
 													<td style="text-align:center">${auto.vdprodName }</td>
-													<td style="text-align:center">${auto.invntryQy }</td>
+													<td style="text-align:center">${auto.invntryQy }개</td>
 													<td style="text-align:center">
-													<fmt:formatNumber value="${auto.hdforwardPrice }" type="number"/></td>
-													<td style="text-align:center">${auto.atorderQy }</td>
+													<fmt:formatNumber value="${auto.hdforwardPrice }" type="number"/>(원)</td>
+													<td style="text-align:center">${auto.atorderQy }개</td>
 													<td style="text-align:center" class="addTrOrderPrice">
-													<fmt:formatNumber value="${auto.atorderQy*auto.hdforwardPrice }" type="number"/></td>
+													<fmt:formatNumber value="${auto.atorderQy*auto.hdforwardPrice }" type="number"/>(원)</td>
 													<td style="text-align:center">
 													<input type="button" class="btn btn-danger delBtn" value="삭제">
 													</td>
@@ -276,7 +276,7 @@ $(function(){
     var orderQyInput = $(this);
     var orderTotalSpan = orderQyInput.closest('tr').find(".orderTotal");
     var hdforwardPriceTd = orderQyInput.closest('tr').find(".hdforwardPriceTd").text();
-    var hdforwardPrice = parseInt(hdforwardPriceTd.replace(/,/g, '')); // 문자열에서 ','를 제거하고 숫자로 변환
+    var hdforwardPrice = stringNumberToInt(hdforwardPriceTd); 
     var orderQyVal = parseInt(orderQyInput.val());
 
     if (isNaN(orderQyVal)) {
@@ -285,7 +285,7 @@ $(function(){
     }
    	
     var total = hdforwardPrice * orderQyVal;
-    orderTotalSpan.text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    orderTotalSpan.text(numberToString(total)+"(원)");
 	});
 	
 	
@@ -296,13 +296,14 @@ $(function(){
 	    var orderQyInput = $(this).closest('tr').find(".orderQyInput"); 
 	    var orderTotalSpan = $(this).closest('tr').find(".orderTotal");	// 주문예상금액
 	    var hdforwardPriceTd = $(this).closest('tr').find(".hdforwardPriceTd").text();	// 제품금액
-	    var hdforwardPrice = parseInt(hdforwardPriceTd.replace(/,/g, '')); // 문자열에서 ','를 제거하고 숫자로 변환
+	    var hdforwardPrice = stringNumberToInt(hdforwardPriceTd); 
 	    orderQyVal = parseInt(orderQyInput.val());
+	   
 	    if(orderQyVal > 0){
-	    orderQyVal -= 1; // 1 감소
-	    orderQyInput.val(orderQyVal);
-	    // 주문수량 * 구매가 
-	    orderTotalSpan.text((hdforwardPrice*orderQyVal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+		    orderQyVal -= 1; // 1 감소
+		    orderQyInput.val(orderQyVal);
+		    // 주문수량 * 구매가 
+		    orderTotalSpan.text(numberToString(hdforwardPrice*orderQyVal)+"(원)");
 	    }
 	});
 	    	
@@ -312,14 +313,13 @@ $(function(){
 	    var orderQyInput = $(this).closest('tr').find(".orderQyInput"); 
 	    var orderTotalSpan = $(this).closest('tr').find(".orderTotal");	// 주문예상금액
 	    var hdforwardPriceTd = $(this).closest('tr').find(".hdforwardPriceTd").text();	// 제품금액
-	    var hdforwardPrice = parseInt(hdforwardPriceTd.replace(/,/g, '')); // 문자열에서 ','를 제거하고 숫자로 변환
-	    console.log(hdforwardPriceTd);
-	    console.log(hdforwardPrice);
+	    var hdforwardPrice = stringNumberToInt(hdforwardPriceTd); 
+	  
 	    orderQyVal = parseInt(orderQyInput.val()); 
 	    orderQyVal += 1; // 1 증가
 	    orderQyInput.val(orderQyVal); 
 	    // 주문수량 * 구매가 
-	    orderTotalSpan.text((hdforwardPrice*orderQyVal).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	    orderTotalSpan.text(numberToString(hdforwardPrice*orderQyVal)+"(원)");
 	});
 	
 	
@@ -330,17 +330,19 @@ $(function(){
 		var orderProdCd = td.eq(0).text();
 		var orderProdName = td.eq(1).text();
 		var orderInvntryQy = td.eq(2).text();
-		var orderHdforwardPrice = parseInt(td.eq(3).text().replace(/,/g, ''));
-		var orderHdforwardPriceStr = orderHdforwardPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		var orderHdforwardPrice = stringNumberToInt(td.eq(3).text());
+		var orderHdforwardPriceStr = numberToString(orderHdforwardPrice);
 		var orderQy = parseInt(td.eq(4).text());
-		var orderPrice = parseInt(td.eq(5).text().replace(/,/g, ''));
-		var orderPriceStr = orderPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		var orderPrice = stringNumberToInt(td.eq(5).text());
+		var orderPriceStr = numberToString(orderPrice);
 
 		dataArr.push(orderProdCd + "/" + orderProdName + "/" + orderInvntryQy + "/" + orderHdforwardPriceStr + "/" + orderQy + "/" + orderPriceStr);
+		
 		totalPrice += orderPrice;
-		var totalStr = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		
+		var totalStr = numberToString(totalPrice);
 	}
-		$("#totalPrice").val(totalPrice);
+		$("#totalPrice").val(totalStr);
 	
 	
 	// 추가 버튼 클릭 시 하단 card에 장바구니처럼 담기게
@@ -352,11 +354,11 @@ $(function(){
 		var orderProdName = $(this).closest('tr').find('.vdProdNameTd').text();	// 제품명
 		var orderInvntryQy = $(this).closest('tr').find('.invntryQyTd').text();	// 현 재고량
 	    var hdforwardPriceTd = $(this).closest('tr').find(".hdforwardPriceTd").text();	// 제품금액
-		var orderHdforwardPrice = parseInt(hdforwardPriceTd.replace(/,/g, '')); // 문자열에서 ','를 제거하고 숫자로 변환
-		var orderHdforwardPriceStr = orderHdforwardPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
+		var orderHdforwardPrice = stringNumberToInt(hdforwardPriceTd); 
+		var orderHdforwardPriceStr = numberToString(orderHdforwardPrice); 
 	    var orderQy = parseInt($(this).closest('tr').find(".orderQyInput").val()); 	// 주문 수량
-		var orderPrice = parseInt($(this).closest('tr').find(".orderTotal").text().replace(/,/g, ''));	// 주문예상금액
-		var orderPriceStr = orderPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		var orderPrice = stringNumberToInt($(this).closest('tr').find(".orderTotal").text());	// 주문예상금액
+		var orderPriceStr = numberToString(orderPrice);
 
 		// 배열에 데이터가 없으면
 		if(dataArr.length == 0){
@@ -374,12 +376,14 @@ $(function(){
 					// 추가한 만큼 수량과 총 금액을 더해줘야한다...
 					var existOrderQy = parseInt(dataArr[i].split("/")[4]);
 					existOrderQy += orderQy;
-					var existOrderPrice = parseInt(dataArr[i].split("/")[5]);
+					var existOrderPrice = stringNumberToInt(dataArr[i].split("/")[5]);
 					existOrderPrice += orderPrice;
+					
+					var existOrderPriceStr = numberToString(existOrderPrice);
 					
 					totalPrice += orderPrice;
 					// 다시 배열에 넣기
-					dataArr[i] = dataArr[i].split("/")[0] + "/" + dataArr[i].split("/")[1] + "/" + dataArr[i].split("/")[2] + "/" + dataArr[i].split("/")[3] + "/"  + existOrderQy + "/" + existOrderPrice;
+					dataArr[i] = dataArr[i].split("/")[0] + "/" + dataArr[i].split("/")[1] + "/" + dataArr[i].split("/")[2] + "/" + dataArr[i].split("/")[3] + "/"  + existOrderQy + "/" + existOrderPriceStr;
 					
 					dataFlag = true;
 					break;
@@ -398,29 +402,29 @@ $(function(){
 			html += "<td style='text-align:center' class='addTrProdCd'>" + dataArr[i].split("/")[0] + "</td>";
 			html += "<td style='text-align:center'>" + dataArr[i].split("/")[1] + "</td>";
 			html += "<td style='text-align:center'>" + dataArr[i].split("/")[2] + "</td>";
-			html += "<td style='text-align:center'>" + dataArr[i].split("/")[3] + "</td>";
-			html += "<td style='text-align:center'>" + dataArr[i].split("/")[4] + "</td>";
-			html += "<td style='text-align:center'class='addTrOrderPrice'>" + dataArr[i].split("/")[5] + "</td>";
+			html += "<td style='text-align:center'>" + dataArr[i].split("/")[3] + "(원)</td>";
+			html += "<td style='text-align:center'>" + dataArr[i].split("/")[4] + "개</td>";
+			html += "<td style='text-align:center'class='addTrOrderPrice'>" + dataArr[i].split("/")[5] + "(원)</td>";
 			html += "<td style='text-align:center'>";
 			html += "<input type='button' class='btn btn-danger delBtn' value='삭제'></td>";
 			html += "</tr>";
 		}
 			
 			addTbody.html(html);
-			$("#totalPrice").val(totalPrice);
+			$("#totalPrice").val(numberToString(totalPrice));
 			
+			// 영역 초기화
 			$(this).closest('tr').find(".orderQyInput").val(0); 
-			$(this).closest('tr').find(".orderTotal").text(0);
+			$(this).closest('tr').find(".orderTotal").text(0+"(원)");
 			
 		});
 	
-
 	
 	// 삭제 버튼 클릭 시 발주 주문 내역에서 사라지게
 	addTbody.on("click",".delBtn",function(){
 		// 내가 클릭한 제품 코드
 		var clickProdCd = $(this).closest('tr').find(".addTrProdCd").text();
-		var clickOrderPrice = parseInt($(this).closest('tr').find(".addTrOrderPrice").text().replace(/,/g, ''));
+		var clickOrderPrice = stringNumberToInt($(this).closest('tr').find(".addTrOrderPrice").text());
 		var findIndex;
 		
 		// 배열에서 해당 제품코드와 동일한 인덱스 찾기
@@ -438,7 +442,7 @@ $(function(){
 		$(this).closest('tr').remove();
 		// 전체 금액에서 -처리한 후 다시 입력
 		totalPrice -= clickOrderPrice;
-		$("#totalPrice").val(totalPrice);
+		$("#totalPrice").val(numberToString(totalPrice));
 	});
 	
 	// 발주하기 버튼
@@ -452,13 +456,13 @@ $(function(){
 			orderList += "<tr>";
 			orderList += "<td style='text-align:center'>" + (i+1) + "</td>";
 			orderList += "<td style='text-align:center'>" + dataArr[i].split("/")[1] + "</td>";
-			orderList += "<td style='text-align:center'>" + dataArr[i].split("/")[4] + "</td>";
-			orderList += "<td style='text-align:center'>" + dataArr[i].split("/")[5] + "</td>";
+			orderList += "<td style='text-align:center'>" + dataArr[i].split("/")[4] + "개</td>";
+			orderList += "<td style='text-align:center'>" + dataArr[i].split("/")[5] + "(원)</td>";
 			orderList += "</tr>";
 		}
 		
 		orderList += "<tr><td colspan='3' style='text-align:right'><h3>총 " + (dataArr.length) +"건</h3></td>";
-		orderList += "<td colspan='3'style='text-align:right'><h3>합계 " + totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")  +"원</h3></td></tr>";
+		orderList += "<td colspan='3'style='text-align:right'><h3>합계 " + numberToString(totalPrice)  +"(원)</h3></td></tr>";
 		
 		$("#modalBody").html(orderList);
 
@@ -472,7 +476,7 @@ $(function(){
 	    for (var i = 0; i < dataArr.length; i++) {
 	        orderList.push({
 	        	vdprodCd : dataArr[i].split("/")[0],
-	            hdforwardPrice: dataArr[i].split("/")[3].replace(/,/g, ''),
+	            hdforwardPrice: stringNumberToInt(dataArr[i].split("/")[3]),
 	            frcsOrderQy: dataArr[i].split("/")[4],
 	        });
 	    }
@@ -528,5 +532,27 @@ $(function(){
 			}
 		});
 	});
+	
+   // 3자리 단위로 ,찍기
+   function numberToString(number) {
+       return new Intl.NumberFormat('ko-KR').format(number);
+   }
+   
+   // ,찍혀있는거 다시 정수형으로 변환
+   function stringNumberToInt(stringNumber){
+      return parseInt(stringNumber.replace(/,/g , ''));
+   }
+   
+   // input에 숫자만 입력할 수 있게끔 정규식 검사
+   function regularCheck(name){
+		$(name).keyup(function(){
+			var replace_text = $(this).val().replace(/[^-0-9]/g,"");
+			$(this).val(replace_text);
+		});
+   }
+  
+	regularCheck(".orderQyInput");
+   
+   
 });
 </script>

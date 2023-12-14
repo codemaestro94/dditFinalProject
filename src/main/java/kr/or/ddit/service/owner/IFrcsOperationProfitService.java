@@ -21,4 +21,5 @@ public interface IFrcsOperationProfitService {
 
 	// 순이익 분석 차트 12개월
 	public List<OperationProfitVO> getOperationProfitChart(String frcsId);
+
 }

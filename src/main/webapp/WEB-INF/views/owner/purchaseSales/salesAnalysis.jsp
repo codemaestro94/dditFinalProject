@@ -93,7 +93,7 @@
 		                                                           </td>
 		                                                           <td style="text-align:center"><fmt:formatNumber value="${oneList.selngPrice }" type="number"/>(원)</td>
 		                                                           <td style="text-align:center">
-		                                                               ${oneList.selngQy }
+		                                                               ${oneList.selngQy }개
 		                                                           </td>
 		                                                           <td style="text-align:center"><fmt:formatNumber value="${oneList.totalPrice }" type="number"/>(원)         
 		                                                               <c:set value="${oneList.totalPrice }" var="totalPrice"/>
@@ -320,7 +320,7 @@ $(function(){
 					}else if(intMonth == 12){ 	// 12월이면
 						str += '<a href="javascript:void(0);" id="leftMonth">';
 		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
-		           		str += year+"/10~"+year+"/"+month+ "월 매입 분석";
+		           		str += year+"/10~"+year+"/"+month+ "월 매출액 분석";
 		           		str += '<a href="javascript:void(0);" id="rightMonth">';
 		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
 					}else{

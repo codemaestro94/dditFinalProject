@@ -281,7 +281,7 @@ $(function(){
 					}else if(intMonth == 12){ 	// 12월이면
 						str += '<a href="javascript:void(0);" id="leftMonth">';
 		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
-		           		str += year+"/10~"+year+"/"+month+ "월 매입 분석";
+		           		str += year+"/10~"+year+"/"+month+ "월 매출 총이익 분석";
 		           		str += '<a href="javascript:void(0);" id="rightMonth">';
 		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
 					}else{

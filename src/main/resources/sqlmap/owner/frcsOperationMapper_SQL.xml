@@ -10,4 +10,10 @@
 		where frcs_id = #{frcsId} and trunc(dues_date, 'MM') = trunc(#{thisMonth}, 'MM')
 	</select>
 	
+	<select id="getPay" parameterType="string" resultType="int">
+		select sum(frcs_emp_salary) pay
+		from frcs_employee
+		where frcs_emp_yn ='Y' and frcs_id = #{frcsId}
+	</select>
+	
 </mapper>

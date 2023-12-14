@@ -25,6 +25,8 @@ public class OwnerPaginationInfoVO<T> {
 	private String searchMonth; // 월
 	private String afterDate;	// 시작달
 	private String beforeDate;	// 시작달
+	private String sendReceive;	// 수신발신
+	private String progress;	// 트레이딩 진행상태
 	
 	private String sortType; // 정렬유형
 	private String sortOrder; // 정렬순서

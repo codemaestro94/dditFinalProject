@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -97,11 +98,13 @@ public class OwnerTradingController {
 	@RequestMapping(value="/tradingList.do", method = RequestMethod.GET)
 	public String tradingHistoryList(
 			@RequestParam(name="page", required=false, defaultValue = "1") int currentPage,
+			@RequestParam(required=false, defaultValue = "all") String sendReceive,
+			@RequestParam(required=false, defaultValue = "all") String progress,
 			Model model) {
 		
-
 		String frcsId= commService.getFrcsId();
-		System.out.println(frcsId);
+		
+		System.err.println("progress : " + progress);
 	
 		//헤더 오른쪽 관리자 영역
 		FranchiseVO frcsHead = myPageService.headerDetail(frcsId);
@@ -109,6 +112,18 @@ public class OwnerTradingController {
 		
 		// 페이징 처리
 		OwnerPaginationInfoVO<TradingVO> pagingVO = new OwnerPaginationInfoVO<TradingVO>();
+		
+		// 검색(수신/발신)
+		if(StringUtils.isNotBlank(sendReceive)) {
+			pagingVO.setSendReceive(sendReceive);
+			model.addAttribute("sendReceive",sendReceive);
+		}
+		
+		if(StringUtils.isNotBlank(progress)) {
+			pagingVO.setProgress(progress);
+			model.addAttribute("progress",progress);
+		}
+		
 		
 		pagingVO.setFrcsId(frcsId);
 		pagingVO.setCurrentPage(currentPage);	// startRow, endRow, startPage, endPage가 결정

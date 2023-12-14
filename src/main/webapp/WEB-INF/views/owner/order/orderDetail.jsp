@@ -252,13 +252,23 @@ var searchForm = $("#searchForm");
 					
 					str += "<tr><td style='text-align:center' class='count'>" + (i+1) + "</td>";
 					str += "<td style='text-align:center' class='vdprodName'>" + vdprodName + "</td>";
-					str += "<td style='text-align:center' class='frcsOrderQy'>" + frcsOrderQy + "</td>";
-					str += "<td style='text-align:center' class='hdforwardPrice'>" + hdforwardPrice + "</td></tr>";
+					str += "<td style='text-align:center' class='frcsOrderQy'>" + frcsOrderQy + "개</td>";
+					str += "<td style='text-align:center' class='hdforwardPrice'>" + numberToString(hdforwardPrice) + "(원)</td></tr>";
 					}
 					$("#tbdArea").html(str);
 				    $('#detailModal').modal('show');
 			}
 		});
 	});
+	
+   // 3자리 단위로 ,찍기
+   function numberToString(number) {
+       return new Intl.NumberFormat('ko-KR').format(number);
+   }
+   
+   // ,찍혀있는거 다시 정수형으로 변환
+   function stringNumberToInt(stringNumber){
+      return parseInt(stringNumber.replace(/,/g , ''));
+   }
 });
 </script>

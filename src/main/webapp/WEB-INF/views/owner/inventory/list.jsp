@@ -34,8 +34,8 @@
 		                    <div class="row mb-2">
 		                    <!-- 검색창 -->
 		                        <div class="col-xl-8">
-						<form id="searchForm" class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">		                                
-						<input type="hidden" name="page" id="page"/>
+									<form id="searchForm" class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">		                                
+									<input type="hidden" name="page" id="page"/>
 		                                <div class="col-auto">
 		                                    <div class="d-flex align-items-center">
 		                                        <label for="searchType" class="me-2"></label>
@@ -156,8 +156,7 @@ $(function(){
 	var searchBtn = $("#searchBtn");	// 검색 버튼
 	
 	// 페이지 로딩될 때 list뿌림
-	$(document).ready(function() {
-	    openPage();
+    openPage();
 	
 	
 	function openPage(){
@@ -261,7 +260,7 @@ $(function(){
 				        .append($("<td>").attr({ 'style': 'text-align:center', 'id': 'proprtQytd' })
 			        		.append($("<span>").attr('id', 'proprtQySpan').text(res.dataList[i].proprtQy))
 				            .append($("<input>").attr({'type': 'hidden', 'class':'proprtQyInput', 'value': res.dataList[i].proprtQy, 'id': 'proprtQy', 'name': 'proprtQy' })))
-				        .append($("<td>").text(formatNumber(res.dataList[i].hdforwardPrice)).attr({'style': 'text-align:center', 'id': 'hdforwardPricetd' })
+				        .append($("<td>").text(numberToString(res.dataList[i].hdforwardPrice)).attr({'style': 'text-align:center', 'id': 'hdforwardPricetd' })
 				        	.append($("<input>").attr({'type': 'hidden', 'class':'hdforwardPriceInput','value': res.dataList[i].hdforwardPrice})))
 				        .append($("<td>").text(res.dataList[i].frcsorderQy).attr('style', 'text-align:center'))
 				        .append($("<td>").text(res.dataList[i].dlivyQy).attr('style', 'text-align:center'))
@@ -330,6 +329,10 @@ $(function(){
 			
 			invntryQytd.html(invntryStr);	
 			proprtQytd.html(proprtQyStr);
+			
+			// 숫자 외 입력 방지
+			regularCheck(".invntryQyInput");
+			regularCheck(".proprtQyInput");
 		}
 		
 		
@@ -417,7 +420,7 @@ $(function(){
 	plusMinus(".proprtDown",".proprtQyInput",false);
 
 	// 3자리 단위로 ,찍기
-	function formatNumber(number) {
+	function numberToString(number) {
 	    return new Intl.NumberFormat('ko-KR').format(number);
 	}
 	
@@ -499,7 +502,15 @@ $(function(){
 			}
 		})
 	});
-	});
+	
+	// input에 숫자만 입력할 수 있게끔 정규식 검사
+	function regularCheck(name){
+		$(name).keyup(function(){
+			var replace_text = $(this).val().replace(/[^-0-9]/g,"");
+			$(this).val(replace_text);
+		});
+	}
+	
 });
 
 	

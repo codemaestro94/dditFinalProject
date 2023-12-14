@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="content-page">
 	<div class="content">
@@ -21,69 +22,71 @@
 		        </div>
 		    </div>
 		
-<!-- 			<input type="hidden" id="page" name="page"> -->
+			<input type="hidden" id="page" name="page">
 		    <div class="row">
 		        <div class="col-12">
 		            <div class="card">
 		                <div class="card-body">
-		                    <form id="searchForm">
+		                    <form id="searchForm" action="/owner/tradingList.do" method="get">
 		                    <div class="row mb-2">
 		                        <div class="col-xl-8">
 		                            <h5>필터</h5>
 		                            <div class="mt-2">
+		                            	<c:set value="${sendReceive }" var="sendReceive"/>
 									    <div class="form-check form-check-inline">
-									        <input type="checkbox" class="form-check-input" id="all" checked>
+									        <input type="checkbox" class="form-check-input" id="all" name="sendReceive" value="all" <c:if test="${fn:contains(sendReceive,'all') }">checked</c:if>> 
 									        <label class="form-check-label" for="all">전체</label>
 									    </div>
 									    <div class="form-check form-check-inline">
-									        <input type="checkbox" class="form-check-input" id="send">
+									        <input type="checkbox" class="form-check-input" id="send" name="sendReceive" value="send" <c:if test="${fn:contains(sendReceive,'send') }">checked</c:if>>
 									        <label class="form-check-label" for="send">발신</label>
 									    </div>
 									    <div class="form-check form-check-inline">
-									        <input type="checkbox" class="form-check-input" id="receive">
+									        <input type="checkbox" class="form-check-input" id="receive" name="sendReceive" value="receive" <c:if test="${fn:contains(sendReceive,'receive') }">checked</c:if>>
 									        <label class="form-check-label" for="receive">수신</label>
 									    </div>
 									</div>                       
 		                        </div>
 		                    </div>
-		                    </form>
 							<div class="row mb-2">
 		                        <div class="col-xl-8">
 		                            <h5>진행상태</h5>
+		                            <c:set value="${progress }" var="progress"/>
 		                            <div class="mt-2">
 									    <div class="form-check form-check-inline">
-									        <input type="checkbox" class="form-check-input" id="customCheck3" checked>
-									        <label class="form-check-label" for="customCheck3">전체</label>
+									        <input type="checkbox" class="form-check-input" id="progressAll" name="progress" value="all" <c:if test="${fn:contains(progress,'all') }">checked</c:if>>
+									        <label class="form-check-label" for="progressAll">전체</label>
 									    </div>
 									    <div class="form-check form-check-inline">
-									        <input type="checkbox" class="form-check-input" id="customCheck4">
-									        <label class="form-check-label" for="customCheck4">요청중</label>
+									        <input type="checkbox" class="form-check-input" id="requesting" name="progress" value="requesting" <c:if test="${fn:contains(progress,'requesting') }">checked</c:if>>
+									        <label class="form-check-label" for="requesting">요청중</label>
 									    </div>
 									    <div class="form-check form-check-inline">
-									        <input type="checkbox" class="form-check-input" id="customCheck5">
-									        <label class="form-check-label" for="customCheck5">거래완료</label>
+									        <input type="checkbox" class="form-check-input" id="completed" name="progress" value="completed" <c:if test="${fn:contains(progress,'completed') }">checked</c:if>>
+									        <label class="form-check-label" for="completed">거래완료</label>
 									    </div>
 									    <div class="form-check form-check-inline">
-									        <input type="checkbox" class="form-check-input" id="customCheck5">
-									        <label class="form-check-label" for="customCheck5">거절</label>
+									        <input type="checkbox" class="form-check-input" id="refuse" name="progress" value="refuse" <c:if test="${fn:contains(progress,'refuse') }">checked</c:if>>
+									        <label class="form-check-label" for="refuse">거절</label>
 									    </div>
 									</div>                          
 		                        </div>
 		                    </div>
+		                    </form>
 							<br>
 		                    <div class="table-responsive">
 		                        <table class="table table-centered table-nowrap mb-0">
 		                            <thead class="table-light">
 		                                <tr>
-		                                    <th style="text-align:center; width:40px;"></th>
-		                                    <th style="text-align:center; width:100px;">순번</th>
-		                                    <th style="text-align:center; width:200px;">트레이딩 신청일</th>
-		                                    <th style="text-align:center; width:150px;">수신/발신</th>
-		                                    <th style="text-align:center; width:200px;">트레이딩 대상 가맹점</th>
-		                                    <th style="text-align:center; width:200px;">제품명</th>
-		                                    <th style="text-align:center; width:150px;">수량</th>
-		                                    <th style="text-align:center; width:150px;">진행상태</th>
-		                                    <th style="text-align:center; width:150px;"></th>
+		                                    <th style="text-align:center; width:2%;"></th>
+		                                    <th style="text-align:center; width:5%;">순번</th>
+		                                    <th style="text-align:center; width:15%;">트레이딩 신청일</th>
+		                                    <th style="text-align:center; width:10%;">수신/발신</th>
+		                                    <th style="text-align:center; width:15%;">트레이딩 대상 가맹점</th>
+		                                    <th style="text-align:center; width:15%;">제품명</th>
+		                                    <th style="text-align:center; width:10%;">수량</th>
+		                                    <th style="text-align:center; width:10%;">진행상태</th>
+		                                    <th style="text-align:center; width:10%;"></th>
 		                                </tr>
 		                            </thead>
 		                            <tbody>
@@ -195,6 +198,7 @@ $(function(){
 	var searchForm = $("#searchForm");
 	
 	searchForm.on("click",function(){
+		console.log("submit");
 		searchForm.submit();
 	});
 	
@@ -342,8 +346,9 @@ $(function(){
 				console.log(res)
 				
 				var str = "";
-				str += "요청 가맹점 : "+ frcsName + "<br>";
-				str += vdprodName + " " + tradQy + "개 " + tradStts + "<br>";
+				str += "요청 가맹점 : "+ frcsName + "<br>"
+				str += "제품 : " + vdprodName + " (" + tradQy + "개) <br>"
+				str += "상태 : " + tradStts + "<br>"
 				str += "내 재고 수량 ▶ " + res.invntryQy ; 
 				
 				Swal.fire({

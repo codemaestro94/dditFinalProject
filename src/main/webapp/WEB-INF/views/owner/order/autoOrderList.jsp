@@ -96,16 +96,16 @@
 					                                    	${autoOrder.vdprodName }
 					                                    </td>
 						                                <td style="text-align:center" class="atorderStdrqy">
-						                                   	${autoOrder.atorderStdrqy }
+						                                   	${autoOrder.atorderStdrqy }개
 						                                </td>
 					                                    <td style="text-align:center" class="atorderQy">
-					                                        ${autoOrder.atorderQy }
+					                                        ${autoOrder.atorderQy }개
 					                                    </td>
 					                                    <td style="text-align:center" class="hdforwardPrice">
-					                                        <fmt:formatNumber value="${autoOrder.hdforwardPrice }" type="number"/>
+					                                        <fmt:formatNumber value="${autoOrder.hdforwardPrice }" type="number"/>(원)
 					                                    </td>
 					                                    <td style="text-align:center" class="amount">
-					                                        <fmt:formatNumber value="${autoOrder.hdforwardPrice*autoOrder.atorderQy }" type="number"/>
+					                                        <fmt:formatNumber value="${autoOrder.hdforwardPrice*autoOrder.atorderQy }" type="number"/>(원)
 					                                    </td>
 					                                    <td style="text-align:center">
 															<button type="button" class="btn btn-info updateBtn" data-autono=${autoOrder.autoorderNo }> 수정</button>
@@ -328,8 +328,8 @@ $(function(){
 				}else{
 					thisTr.find('.vdprodCd').text(vdprodCd);
 					thisTr.find('.vdprodName').text(vdprodName);
-					thisTr.find('.hdforwardPrice').text(hdforwardPrice);
-					thisTr.find('.amount').text(0);
+					thisTr.find('.hdforwardPrice').text(hdforwardPrice+"(원)");
+					thisTr.find('.amount').text(0+"(원)");
 					var btnAreaStr = "<button type='button' class='btn btn-info saveBtn' style='margin-right:0.2rem;'>저장</button>";
 					btnAreaStr += "<button type='button' class='btn btn-danger addDelBtn'>삭제</button>";
 					
@@ -409,13 +409,12 @@ $(function(){
     	atorderQyVal = 0;
         atorderQyInput.val(0);
     }
-    var tempInt = parseInt(hdforwardPriceTd.replace(/,/g, ''))*atorderQyVal;
-	var temp = tempInt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var tempInt = stringNumberToInt(hdforwardPriceTd)*atorderQyVal;
+	var temp = numberToString(tempInt);
 //     var total = hdforwardPrice * atorderQyVal;
-    amount.text(temp);
+    amount.text(temp+"(원)");
 	});
  
-	 
 	 
  	 // 자동발주 수량 + 버튼 눌렀을 때 숫자 증가
  	tBodyArea.on("click",".atorderQyUp", function () {
@@ -426,12 +425,12 @@ $(function(){
  		var inputEle = $(injectEle).find(".atorderQyInput").val();
  		atorderQyVal = parseInt(inputEle) + 1;
  		$(injectEle).find(".atorderQyInput").val(atorderQyVal);
- 		var tempInt = parseInt(hdforwardPrice.replace(/,/g, ''))*atorderQyVal;
- 		var temp = tempInt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
- 		amount.text(temp);
+ 		var tempInt = stringNumberToInt(hdforwardPrice)*atorderQyVal;
+ 		var temp = numberToString(tempInt);
+ 		amount.text(temp+"(원)");
  	});
 
- 	 // 자동발주 기준수량 - 버튼 눌렀을 때 숫자 감소
+ 	 // 자동발주 수량 - 버튼 눌렀을 때 숫자 감소
  	tBodyArea.on("click",".atorderQyDown",function(){
  		var ele = $(this)[0];	// 누른 버튼
  		var injectEle = $(ele).parents(".bootstrap-touchspin-injected");
@@ -443,9 +442,9 @@ $(function(){
  		if(currentValue > 0){
  			var atorderQyVal = currentValue - 1;
 	 		$(injectEle).find(".atorderQyInput").val(atorderQyVal);
-	 		var tempInt = parseInt(hdforwardPrice.replace(/,/g, ''))*atorderQyVal;
-	 		var temp = tempInt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	 		amount.text(temp);
+	 		var tempInt = stringNumberToInt(hdforwardPrice)*atorderQyVal;
+	 		var temp = numberToString(tempInt);
+	 		amount.text(temp+"(원)");
  		}
  	});
 	 
@@ -560,6 +559,10 @@ $(function(){
 		thisTr.find('.atorderStdrqy').html(atorderStdrqyStr);
 		thisTr.find('.atorderQy').html(atorderQyStr);
 	
+		regularCheck(".orderStdrqyInput");
+		regularCheck(".atorderQyInput");
+		
+		
 		$(this).attr('class','btn btn-info updateSaveBtn');
 		// 제품 코드나 자동발주 번호..., 자동발주 기준 수량, 자동발주 수량, 프랜차이즈 아이디 보내면 된다.
 		
@@ -616,6 +619,26 @@ $(function(){
 	$("#modal1").on("click",".btn-close",function(){
 		$(".checkBox").prop("checked",false);
 	});
+	
+   // 3자리 단위로 ,찍기
+   function numberToString(number) {
+       return new Intl.NumberFormat('ko-KR').format(number);
+   }
+   
+   // ,찍혀있는거 다시 정수형으로 변환
+   function stringNumberToInt(stringNumber){
+      return parseInt(stringNumber.replace(/,/g , ''));
+   }
+
+   // input에 숫자만 입력할 수 있게끔 정규식 검사
+   function regularCheck(name){
+		$(name).keyup(function(){
+			var replace_text = $(this).val().replace(/[^-0-9]/g,"");
+			$(this).val(replace_text);
+		});
+   }
+  
+
 });
 
 

@@ -73,7 +73,6 @@
 		                        
 		                        <div class="col-xl-4">
 		                            <div class="text-xl-end mt-xl-0 mt-2">
-<!-- 		                                <button type="button" class="btn btn-light mb-2">엑셀 다운로드</button> -->
 		                            </div>
 		                        </div><!-- end col-->
 		                    </div>
@@ -270,16 +269,18 @@ $(function(){
 					var vdprodName = res[i].vdprodName;
 					var invntryQy = res[i].invntryQy;
 					var vdprodCd = res[i].vdprodCd;
+					
+					if(invntryQy>0){
+					
 					str += '<tr><td><div><input type="hidden" value="'+frcsId+'" class="frcsId2">';
 					str += '<input type="hidden" value="'+vdprodCd+'" class="vdprodCd"></div></td>';
 					str += '<td style="text-align:center" class="frcsName">'+frcsName+'</td>';
 					str += '<td style="text-align:center">'+frcsAdd+'</td>';
 					str += '<td style="text-align:center" class="vdprodName">'+vdprodName+'</td>';
-					str += '<td style="text-align:center">'+invntryQy+'</td>';
-					if(invntryQy>0){
+					str += '<td style="text-align:center" class= "invntryQy">'+invntryQy+'</td>';
 					str += '<td style="text-align:center"><button type="button" class="btn btn-info tradeBtn">트레이딩 신청</button></td></tr>';
-					}else{
-					str += '<td style="text-align:center"><button type="button" class="btn btn-info tradeBtn" disabled>트레이딩 신청</button></td></tr>'
+// 					}else{
+// 					str += '<td style="text-align:center"><button type="button" class="btn btn-info tradeBtn" disabled>트레이딩 신청</button></td></tr>'
 					}
 				}
 								
@@ -291,17 +292,17 @@ $(function(){
 	
 	addArea.on("click", ".tradeBtn", function(){
 		
-		
 		// 선택한 가맹점 코드
 		var frcsId2 = $(this).closest('tr').find('.frcsId2').val();
 		var vdprodCd = $(this).closest('tr').find('.vdprodCd').val();
 		var frcsName = $(this).closest('tr').find('.frcsName').text();
 		var vdprodName = $(this).closest('tr').find('.vdprodName').text();
+		var invntryQy = $(this).closest('tr').find('.invntryQy').text();
 		
 		console.log(frcsId2);
 		console.log(vdprodCd);
 		var text = "요청 매장 : " + frcsName + "<br>";
-		text += "요청 재료 : " + vdprodName ;
+		text += "요청 재료 : " + vdprodName;
 		// 모달에 요청 개수를 몇개할건지가 뜨고
 		// 최종확인버튼을 누르면 트레이딩 테이블에 insert되도록
 		Swal.fire({
@@ -315,9 +316,12 @@ $(function(){
             showCancelButton: true, // 취소 버튼 표시
             icon: "question",
             preConfirm: function (quantity) {
+            	console.log(quantity)
             	 if (quantity === "" || isNaN(quantity) || quantity < 1) {
-                     Swal.showValidationMessage("유효한 숫자를 입력하세요.");
-                 } else {
+            		    Swal.showValidationMessage("숫자를 입력해주세요.");
+                 }else if(quantity > invntryQy){
+         		    	Swal.showValidationMessage("보유수량보다 더 많은 수량을 요청했습니다.");
+                 }else {
                      var tradQy = parseInt(quantity);	// 트레이딩 수량
                      // 요청 가맹점 코드, 제품명코드, 응답 가맹점 코드, 제품 수량 보내줘야함.
 
@@ -356,8 +360,6 @@ $(function(){
                  }
              },
         });
-		
-		
 	});
 });
 </script>

@@ -137,7 +137,7 @@ public class FrcsOperationProfitServiceImpl implements IFrcsOperationProfitServi
 		}
 		
 		// 인건비
-		int pay = operationVO.getPay();
+		int pay = mapper.getPay(frcsId);
 		
 		// 공과금 및 월세
 		int publicDues = mapper.getSumPublicDues(frcsId, thisMonth);
@@ -154,6 +154,7 @@ public class FrcsOperationProfitServiceImpl implements IFrcsOperationProfitServi
 		operationVO.setPublicDues(publicDues);
 		operationVO.setOperationProfit(operationProfit);
 		operationVO.setCurrentIncome(currentIncomeInt);
+		operationVO.setPay(pay);
 		
 		return operationVO;
 	}
@@ -175,7 +176,7 @@ public class FrcsOperationProfitServiceImpl implements IFrcsOperationProfitServi
 	// 순이익 6개월
 	@Override
 	public OperationProfitVO getSixTotal(OperationProfitVO operVO) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

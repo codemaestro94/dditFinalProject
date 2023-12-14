@@ -8,4 +8,7 @@ public interface FrcsOperationMapper {
 
 	public int getSumPublicDues(@Param("frcsId")String frcsId, @Param("thisMonth")Date thisMonth);
 
+	// 인건비
+	public int getPay(String frcsId);
+
 }

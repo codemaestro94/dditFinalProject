@@ -272,6 +272,7 @@ $(function(){
 			contentType : "application/json; charset=utf-8",
 			success : function(res){
 				
+				console.log(res);
 				var thisMonth = res.thisMonth;
 				
 // 				var intTotalPrice = res.totalPrice;	// 매출
@@ -324,31 +325,31 @@ $(function(){
 // 				}
 				
 				
-// 				// 6개월
-// 				if(monthParam == "sixMonth"){
-// 					var pre = 0;
-// 					var str = "";
+				// 6개월
+				if(monthParam == "sixMonth"){
+					var pre = 0;
+					var str = "";
 					
-// 					if((intMonth+7)<13){
-// 						intYear= intYear-1;
-// 						pre = intMonth+7;
-// 						if(pre < 10){
-// 							pre = "0"+pre;
-// 						}
-// 					}else{
-// 						pre = (intMonth+7)-12;
-// 						if(pre < 10){
-// 							pre = "0"+pre;
-// 						}
-// 					}
-// 					str += '<a href="javascript:void(0);" id="leftMonth">';
-// 	           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
-// 	           		str += intYear+"/"+pre+"~"+year+"/"+month+ "월 순이익 분석";
-// 	           		str += '<a href="javascript:void(0);" id="rightMonth">';
-// 	           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
-// 				}
+					if((intMonth+7)<13){
+						intYear= intYear-1;
+						pre = intMonth+7;
+						if(pre < 10){
+							pre = "0"+pre;
+						}
+					}else{
+						pre = (intMonth+7)-12;
+						if(pre < 10){
+							pre = "0"+pre;
+						}
+					}
+					str += '<a href="javascript:void(0);" id="leftMonth">';
+	           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
+	           		str += intYear+"/"+pre+"~"+year+"/"+month+ "월 순이익 분석";
+	           		str += '<a href="javascript:void(0);" id="rightMonth">';
+	           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
+				}
 				
-// 				mainText.html(str);
+				mainText.html(str);
 				
 // 				salesTd.text("1");	// 매출액
 // 				headChargeTd.text();	// 본사청구액

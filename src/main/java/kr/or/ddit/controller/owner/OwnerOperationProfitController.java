@@ -67,7 +67,7 @@ public class OwnerOperationProfitController {
 		return "owner/purchaseSales/operationProfit";
 	}
 	
-	// 1개월 매출 총이익 분석 ajax
+	// 1개월 순이익 분석 ajax
 	@ResponseBody
 	@RequestMapping(value="/operationProfit/oneMonth.do", method = RequestMethod.POST)
 	public ResponseEntity<OperationProfitVO> oneOperationProfit(@RequestBody OperationProfitVO operVO){
@@ -78,7 +78,7 @@ public class OwnerOperationProfitController {
 	}
 	
 	
-	// 3개월 매출 총이익 분석
+	// 3개월 순이익 분석
 	@ResponseBody
 	@RequestMapping(value="/operationProfit/threeMonth.do", method = RequestMethod.POST)
 	public ResponseEntity<OperationProfitVO> threeOperationProfit(@RequestBody OperationProfitVO operVO){
@@ -88,7 +88,7 @@ public class OwnerOperationProfitController {
 		return new ResponseEntity<OperationProfitVO>(threeTotalList, HttpStatus.OK);
 	}
 	
-	// 6개월 매출 총이익 분석
+	// 6개월 순이익 분석
 	@ResponseBody
 	@RequestMapping(value="/operationProfit/sixMonth.do", method = RequestMethod.POST)
 	public ResponseEntity<OperationProfitVO> sixOperationProfit(@RequestBody OperationProfitVO operVO){

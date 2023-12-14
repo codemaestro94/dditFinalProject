@@ -9,7 +9,7 @@
 		<id property="frcsId" column="frcs_id"/>	<!-- 프라이머리 키 -->
 		<id property="vdprodCd" column="vdprod_cd"/>	<!-- 프라이머리 키 -->
 		<result property="invntryQy" column="invntry_qy"/>
-		<result property="propryQy" column="propry_qy"/>
+		<result property="proprtQy" column="proprt_qy"/>
 		<result property="lastwrhousngDate" column="lastwrhousng_date"/>
 		<result property="dlivyQy" column="dlivy_qy"/>
 	</resultMap>

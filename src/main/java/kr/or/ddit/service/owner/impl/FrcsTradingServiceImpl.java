@@ -71,13 +71,13 @@ public class FrcsTradingServiceImpl implements IFrcsTradingService {
 			String frcsId2 = tradVO.getFrcsId2(); //답변자의 가맹점 코드
 			String tradNo = tradVO.getTradNo(); // 답변 번호
 			alarmVO.setAnsNo(tradNo);
-//			//1) FROM
+			//1) FROM
 			String getFrcsId = this.mapper.getMemFrcs(frcsId); //가맹점 코드를 mem_Id로 만들기 위함
 			alarmVO.setMemId(getFrcsId);
 			//2) WHAT
 			alarmVO.setTblName("TRADING");
 			alarmVO.setTblNo(tradNo);
-//			//3) TO
+			//3) TO
 			String receiveMemId = this.mapper.getReceiveMemId(frcsId2);
 //			
 			alarmVO.setReceiveMemId(receiveMemId);
