@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sun.mail.iap.Response;
+
 import kr.or.ddit.ServiceResult;
 import kr.or.ddit.service.owner.IFrcsBillService;
 import kr.or.ddit.service.owner.IFrcsIdService;
@@ -122,6 +124,15 @@ public class OwnerPublicDuesController {
       
        return "redirect:/owner/dues.do";
    }
+   
+   @ResponseBody
+   @RequestMapping(value="/dues/duesUpdate.do", method = RequestMethod.POST)
+   public ResponseEntity<ServiceResult> duesUpdate(@RequestBody FrcsPublicDuesVO duesVO){
+	   
+	   ServiceResult result = service.duesUpdate(duesVO);
+	   
+	   return new ResponseEntity<ServiceResult>(result, HttpStatus.OK);
+   }
 
    
    // 납부년월 중복체크
@@ -153,11 +164,11 @@ public class OwnerPublicDuesController {
 	   return new ResponseEntity<FrcsPublicDuesVO>(frcsVO, HttpStatus.OK);
    }
    
-   @RequestMapping(value="/dues/duesUpdate.do", method = RequestMethod.POST)
-   public String publicDuesUpdate(FrcsPublicDuesVO duesVO) {
-	   service.duesUpdate(duesVO);
-	   return "redirect:/owner/dues.do";
-   }
+//   @RequestMapping(value="/dues/duesUpdate.do", method = RequestMethod.POST)
+//   public String publicDuesUpdate(FrcsPublicDuesVO duesVO) {
+//	   service.duesUpdate(duesVO);
+//	   return "redirect:/owner/dues.do";
+//   }
    
    // 차트를 위한 데이터
    @ResponseBody

@@ -15,7 +15,9 @@ import kr.or.ddit.vo.owner.FranchiseVO;
 import kr.or.ddit.vo.owner.FrcsInventoryVO;
 import kr.or.ddit.vo.owner.OwnerPaginationInfoVO;
 import kr.or.ddit.vo.owner.TradingVO;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class FrcsTradingServiceImpl implements IFrcsTradingService {
 
@@ -163,6 +165,25 @@ public class FrcsTradingServiceImpl implements IFrcsTradingService {
 	@Override
 	public FrcsInventoryVO getReqDetail(FrcsInventoryVO frcsInventVO) {
 		return mapper.getReqDetail(frcsInventVO);
+	}
+
+	// 트레이딩 검색
+	@Override
+	public List<TradingVO> getSearch(TradingVO tradVO) {
+
+		List<String> tradList = tradVO.getSendReceive();
+		
+		 String sendReceive = "";
+		    for (int i = 0; i < tradList.size(); i++) {
+		        String searchWord = tradList.get(i); // all,send,receive
+		        sendReceive += searchWord;
+		        log.info("sendReceive" + sendReceive);
+		    }
+		    
+		    List<TradingVO> searchList = mapper.selectTradingList(tradVO);
+
+		
+		return searchList;
 	}
 
 	

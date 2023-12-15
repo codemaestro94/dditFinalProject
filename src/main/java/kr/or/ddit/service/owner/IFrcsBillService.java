@@ -21,7 +21,7 @@ public interface IFrcsBillService {
 	public int selectDuesCount(OwnerPaginationInfoVO<FrcsPublicDuesVO> pagingVO);
 	public List<FrcsPublicDuesVO> selectDuesList(OwnerPaginationInfoVO<FrcsPublicDuesVO> pagingVO);
 	public FrcsPublicDuesVO duesDetail(String duesPayde, String frcsId);
-	public void duesUpdate(FrcsPublicDuesVO duesVO);
+	public ServiceResult duesUpdate(FrcsPublicDuesVO duesVO);
 	
 	// 차트를 위한 데이터 가져오기 ajax
 	public List<FrcsPublicDuesVO> getData(String frcsId);

@@ -273,56 +273,60 @@ $(function(){
 			success : function(res){
 				
 				console.log(res);
-				var thisMonth = res.thisMonth;
 				
-// 				var intTotalPrice = res.totalPrice;	// 매출
-// 				var intTotalorderPrice = res.totalorderPrice;	// 매입
-// 				var totalPrice = intTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-// 				var totalorderPrice =intTotalorderPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-// 				var minus = intTotalPrice-intTotalorderPrice;
-// 				var intTotal = minus.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			
-				var year =  thisMonth.split("/")[0];	 // 년
-				var month = thisMonth.split("/")[1];	 // 월
+				var sales = numberToString(res.sales); // 매출액
+				var headCharge = numberToString(res.headCharge); // 본사 청구액
+				var pay = numberToString(res.pay); // 인건비
+				var publicDues = numberToString(res.publicDues);	// 공과금 및 월세
+				var operationProfit = numberToString(res.operationProfit);	// 영업 이익
+				var currentIncome = numberToString(res.currentIncome);	// 당기 순이익
+				
+				var year =  monthInfo.split("/")[0];	 // 년
+				var month = monthInfo.split("/")[1];	 // 월
 				
 				var intYear = parseInt(year);
 				var intMonth = parseInt(month);
 				
-				
-// 				if(monthParam === "oneMonth"){
-// 					var str = "";
-// 					str += '<a href="javascript:void(0);" id="leftMonth">';
-// 	           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
-// 	           		str += +year+"/"+month+ "월 매출 총이익 분석";
-// 	           		str += '<a href="javascript:void(0);" id="rightMonth">';
-// 	           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
-// 				}
+				if(monthParam === "oneMonth"){
+					var str = "";
+					str += '<a href="javascript:void(0);" id="leftMonth">';
+	           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
+	           		str += +year+"/"+month+ "월 순이익 분석";
+	           		str += '<a href="javascript:void(0);" id="rightMonth">';
+	           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
+				}
 
 				
-// 				// 3개월
-// 				if(monthParam === "threeMonth"){
-// 					var str = "";
-// 					// 1월이면
-// 					if(intMonth == 1){
-// 						str += '<a href="javascript:void(0);" id="leftMonth">';
-// 		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
-// 		           		str += (intYear-1)+"/11~"+year+"/"+month+ "월 매출 총이익 분석";
-// 		           		str += '<a href="javascript:void(0);" id="rightMonth">';
-// 		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
-// 					}else if(intMonth == 2){	// 2월이면
-// 						str += '<a href="javascript:void(0);" id="leftMonth">';
-// 		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
-// 		           		str += (intYear-1)+"/12~"+year+"/"+month+ "월 매출 총이익 분석";
-// 		           		str += '<a href="javascript:void(0);" id="rightMonth">';
-// 		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
-// 					}else{
-// 						str += '<a href="javascript:void(0);" id="leftMonth">';
-// 		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
-// 		           		str += year+"/0"+(intMonth-2)+"~"+year+"/"+month+ "월 매출 총이익 분석";
-// 		           		str += '<a href="javascript:void(0);" id="rightMonth">';
-// 		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
-// 					}
-// 				}
+				// 3개월
+				if(monthParam === "threeMonth"){
+					var str = "";
+					// 1월이면
+					if(intMonth == 1){
+						str += '<a href="javascript:void(0);" id="leftMonth">';
+		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
+		           		str += (intYear-1)+"/11~"+year+"/"+month+ "월 순이익 분석";
+		           		str += '<a href="javascript:void(0);" id="rightMonth">';
+		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
+					}else if(intMonth == 2){	// 2월이면
+						str += '<a href="javascript:void(0);" id="leftMonth">';
+		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
+		           		str += (intYear-1)+"/12~"+year+"/"+month+ "월 순이익 분석";
+		           		str += '<a href="javascript:void(0);" id="rightMonth">';
+		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
+					}else if(intMonth == 12){
+						str += '<a href="javascript:void(0);" id="leftMonth">';
+		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
+		           		str += year+"/10~"+year+"/"+month+ "월 순이익 분석";
+		           		str += '<a href="javascript:void(0);" id="rightMonth">';
+		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
+					}else{
+						str += '<a href="javascript:void(0);" id="leftMonth">';
+		           		str += '<i class="me-3 ri-arrow-left-s-line" style="font-size: 20px"></i></a>';
+		           		str += year+"/0"+(intMonth-2)+"~"+year+"/"+month+ "월 순이익 분석";
+		           		str += '<a href="javascript:void(0);" id="rightMonth">';
+		           		str +='<i class="ms-3 ri-arrow-right-s-line" style="font-size: 20px"></i></a>'
+					}
+				}
 				
 				
 				// 6개월
@@ -351,21 +355,15 @@ $(function(){
 				
 				mainText.html(str);
 				
-// 				salesTd.text("1");	// 매출액
-// 				headChargeTd.text();	// 본사청구액
-// 				payTd.text();	// 인건비
-// 				publicDuesTd.text();	// 공과금 및 월세
-// 				operationProfitTd.text();	// 영업 이익
-// 				currentIncomeTd.text();	// 당기 순이익
-				
-				
-				
-// 				totalPriceTd.text("￦"+totalPrice);	// 매출액
-// 				totalorderPriceTd.text("-￦"+totalorderPrice);	// 매입가
-// 				total.html(totalStr);	// 총계
+				salesTd.text(sales+"(원)");	// 매출액
+				headChargeTd.text("-"+headCharge+"(원)");	// 본사청구액
+				payTd.text("-"+pay+"(원)");	// 인건비
+				publicDuesTd.text("-"+publicDues+"(원)");	// 공과금 및 월세
+				operationProfitTd.text(operationProfit+"(원)");	// 영업 이익
+				currentIncomeTd.text(currentIncome+"(원)");	// 당기 순이익
 			}
 		});
-}
+	}
 	
 	// 순이익 12개월 차트
 	var operationProfitChart  = [];
@@ -433,6 +431,10 @@ $(function(){
 			});
 		}
 	});
-	
+   // 3자리 단위로 ,찍기
+   function numberToString(number) {
+       return new Intl.NumberFormat('ko-KR').format(number);
+   }
+
 });
 </script>

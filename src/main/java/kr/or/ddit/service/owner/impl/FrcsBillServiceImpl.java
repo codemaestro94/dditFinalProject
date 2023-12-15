@@ -111,16 +111,24 @@ public class FrcsBillServiceImpl implements IFrcsBillService {
 
 	// 공과금 납부내역 수정
 	@Override
-	public void duesUpdate(FrcsPublicDuesVO duesVO) {
+	public ServiceResult duesUpdate(FrcsPublicDuesVO duesVO) {
 		// 기존 납부내역을 삭제하고 다시 등록..
 		
+		ServiceResult result = null;
 		log.info("[duesUpdate] duesVO : " + duesVO);
 
 		String duesPayde = duesVO.getDuesPayde();
 		String frcsId = duesVO.getFrcsId();
 		
-		mapper.duesRemove(duesPayde,frcsId);
-		mapper.duesRegister(duesVO);
+		int status = mapper.duesRemove(duesPayde,frcsId);
+		int cnt;
+		
+		if(status > 0) {
+			mapper.duesRegister(duesVO);
+			result = ServiceResult.OK;
+		}
+		
+		return result;
 	}
 
 	// 공과금 차트 

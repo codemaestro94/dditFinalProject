@@ -7,7 +7,7 @@
 	<select id="getSumPublicDues" parameterType="map" resultType="int">
 		select nvl(sum(dues_elcty+dues_water+dues_gas+dues_mtht),0) as publicDues
 		from publicdues
-		where frcs_id = #{frcsId} and trunc(dues_date, 'MM') = trunc(#{thisMonth}, 'MM')
+		where frcs_id = #{frcsId} and to_date(DUES_PAYDE,'yy/MM') = trunc(sysdate, 'MM')
 	</select>
 	
 	<select id="getPay" parameterType="string" resultType="int">

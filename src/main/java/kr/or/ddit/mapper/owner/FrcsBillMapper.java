@@ -32,7 +32,7 @@ public interface FrcsBillMapper {
 	public FrcsPublicDuesVO totalAverage();
 
 	// 공과금 삭제
-	public void duesRemove(@Param("duesPayde")String duesPayde, @Param("frcsId")String frcsId);
+	public int duesRemove(@Param("duesPayde")String duesPayde, @Param("frcsId")String frcsId);
 
 	// 페이징
 	public int selectDuesCount(OwnerPaginationInfoVO<FrcsPublicDuesVO> pagingVO);
@@ -87,9 +87,5 @@ public interface FrcsBillMapper {
 
 	// 트레이딩 상세내역(내가 보내준거)
 	public List<TradingVO> getTradMinDetail(@Param("frcsId")String frcsId, @Param("thisMonth")Date thisMonth);
-
-
-	
-
 	
 }

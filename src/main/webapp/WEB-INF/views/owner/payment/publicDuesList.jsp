@@ -47,7 +47,6 @@
 		                        <div class="flex-shrink-0 me-2">
 		                            <i class="ri-drop-line widget-icon rounded-circle bg-info-lighten text-info"></i>
 		                        </div>
-		                        
 		                        <div class="flex-grow-1">
 		                            <h5 class="fw-semibold my-0">수도세</h5>
 		                            <p class="mb-0"><span><fmt:formatNumber value="${average.duesWater }" type="number"/>원</span>
@@ -109,7 +108,6 @@
 		                            <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i><fmt:formatNumber maxFractionDigits="3" value="${average.percentMtht }"/>%</span>
 		                            </c:if>
 		                            </p>
-		                            
 		                        </div>
 		                    </div>
 		                </div>
@@ -185,18 +183,18 @@
 									                    </div>
 									                    <div class="mb-3 d-flex align-items-baseline">
 									                        <label for="duesElcty" class="form-label col-2">전기세</label>
-									                        <input class="form-control text-end" type="text" id="duesElcty" name="duesElcty" placeholder="전기세를 입력해주세요.">
+									                        <input class="form-control text-end duesElcty inputType" type="text" id="duesElcty" name="duesElcty" placeholder="전기세를 입력해주세요." onkeyup="inputNumberFormat(this);">
 									                    </div>
 									
 									                    <div class="mb-3 d-flex align-items-baseline">
 									                        <label for="duesWater" class="form-label col-2">수도세</label>
-									                        <input class="form-control text-end" type="text" id="duesWater" name="duesWater" placeholder="수도세를 입력해주세요.">
+									                        <input class="form-control text-end duesWater inputType" type="text" id="duesWater" name="duesWater" placeholder="수도세를 입력해주세요.">
 									                    </div>
 									
 									                    <div class="mb-3 d-flex align-items-baseline">
 									                        <label for="duesGas" class="form-label col-2">가스비</label>
-									                        <input class="form-control text-end" type="text" id="duesGas" name="duesGas" placeholder="가스비를 입력해주세요.">
-									                    </div>
+									                        <input class="form-control text-end duesGas inputType" type="text" id="duesGas" name="duesGas" placeholder="가스비를 입력해주세요.">
+									                    </div> 
 									                    
 									                    <div class="mb-3">
 														    <div class="d-flex align-items-baseline">
@@ -210,13 +208,13 @@
 														            <label class="form-check-label" for="duesmthtNo">월세아님</label>
 														        </div>
 														    </div>
-														    <input class="form-control text-end" type="text" id="duesMtht" name="duesMtht" value="0" disabled>
+														    <input class="form-control text-end duesMtht inputType" type="text" id="duesMtht" name="duesMtht" value="0" disabled>
 														</div>
 														
 									                    <div class="mb-3 text-center">
 									                        <input type="button" class="btn btn-light" style="margin-right: 0.08rem;" data-bs-dismiss="modal" value="닫기">
 									                        <input type="button" class="btn btn-primary" id="registerBtn" value="등록">
-									                        <input type="button" class="btn btn-success" id="autoBtn" value="자동완성">
+<!-- 									                        <input type="button" class="btn btn-success" id="autoBtn" value="자동완성"> -->
 									                    </div>
 									                    <sec:csrfInput/>
 									                </form>
@@ -235,14 +233,14 @@
 	                        <table class="table table-centered table-nowrap mb-0 table-hover fold-table">
 	                            <thead class="table-light">
 	                                <tr>
-	                                    <th style="width: 20px;">
-	                                        <div class="form-check">
-	                                        </div>
-	                                    </th> 
-	                                    <th style="text-align:center; width:200px;">제목</th>
-	                                    <th style="text-align:center; width:150px;">등록일자</th>
-	                                    <th style="text-align:center; width:150px;">총 납부금액</th>
-	                                    <th style="text-align:center; width:150px;"></th>
+<!-- 	                                    <th style="width: 20px;"> -->
+<!-- 	                                        <div class="form-check"> -->
+<!-- 	                                        </div> -->
+<!-- 	                                    </th>  -->
+	                                    <th style="text-align:center; width:30%;">제목</th>
+	                                    <th style="text-align:center; width:15%;">등록일자</th>
+	                                    <th style="text-align:center; width:15%;">총 납부금액</th>
+	                                    <th style="text-align:center; width:15%;"></th>
 	                                </tr>
 	                            </thead>
 	                            <tbody id="tBody">
@@ -258,12 +256,12 @@
 	                            		<c:otherwise>
 	                            			<c:forEach items="${duesList }" var="dues" varStatus="stat">
 			                                <tr class="view">
-			                                    <td>
-			                                        <div class="form-check">
-			                                            <input type="checkbox" class="form-check-input" id="customCheck2">
-			                                            <label class="form-check-label" for="customCheck2">&nbsp;</label>
-			                                        </div>
-			                                    </td>
+<!-- 			                                    <td> -->
+<!-- 			                                        <div class="form-check"> -->
+<!-- 			                                            <input type="checkbox" class="form-check-input" id="customCheck2"> -->
+<!-- 			                                            <label class="form-check-label" for="customCheck2">&nbsp;</label> -->
+<!-- 			                                        </div> -->
+<!-- 			                                    </td> -->
 			                                    <td style="text-align:center">${dues.duesPayde }월 공과금 내역</td>
 			                                    <td style="text-align:center"><fmt:formatDate value="${dues.duesDate }" pattern="yyyy/MM/dd"/></td>
 			                                    <td style="text-align:center"><fmt:formatNumber value="${dues.duesGas+dues.duesWater+dues.duesElcty+dues.duesMtht }" type="number"/>(원)</td>
@@ -277,49 +275,49 @@
 											                <div class="text-center mt-2 mb-4"> 
 											                	<h3>공과금 납부 내역 수정</h3>
 											                </div>
-											                <form class="ps-3 pe-3" action="/owner/dues/duesUpdate.do" method="post" id="duesUpdateForm">
+<!-- 											                <form class="ps-3 pe-3" action="/owner/dues/duesUpdate.do" method="post" id="duesUpdateForm"> -->
 											             		<input type="hidden" name="frcsId" value="${frcsId }"/>
-											             		<input type="hidden" name="duesPayde" value="${dues.duesPayde }"/>
+											             		<input type="hidden" name="duesPayde" value="${dues.duesPayde }" class="duesPayde"/>
 											                   <div class="mb-3 d-flex align-items-baseline">
 											                        <label for="duesPayde1" class="form-label col-2">납부년월</label>
 	                                                                <input class="form-control" id="duesPayde1" type="month" name="duesPayde">
 											                    </div>
 											                    <div class="mb-3 d-flex align-items-baseline">
 											                        <label for="duesElcty1" class="form-label col-2">전기세</label>
-											                        <input class="form-control text-end" type="text" id="duesElcty1" name="duesElcty" placeholder="전기세를 입력해주세요.">
+											                        <input class="form-control text-end duesElcty" type="text" id="duesElcty1" name="duesElcty" value="${dues.duesElcty }">
 											                    </div>
 											
 											                    <div class="mb-3 d-flex align-items-baseline">
 											                        <label for="duesWater1" class="form-label col-2">수도세</label>
-											                        <input class="form-control text-end" type="text" id="duesWater1" name="duesWater" placeholder="수도세를 입력해주세요.">
+											                        <input class="form-control text-end duesWater" type="text" id="duesWater1" name="duesWater" value="${dues.duesWater }">
 											                    </div>
 											
 											                    <div class="mb-3 d-flex align-items-baseline">
 											                        <label for="duesGas1" class="form-label col-2">가스비</label>
-											                        <input class="form-control text-end" type="text" id="duesGas1" name="duesGas" placeholder="가스비를 입력해주세요.">
+											                        <input class="form-control text-end duesGas" type="text" id="duesGas1" name="duesGas" value="${dues.duesGas }">
 											                    </div>
 											                    
 											                    <div class="mb-3">
 																    <div class="d-flex align-items-baseline">
 																        <label for="duesmthtYN" class="form-label" style="margin-right: 2rem;">월세여부</label>
 																        <div class="form-check form-check-inline">
-																            <input type="radio" id="duesmthtYes1" name="duesMthtYN" class="form-check-input" value="Y">
+																            <input type="radio" id="duesmthtYes1" name="duesMthtYN" class="form-check-input duesMthtYN" value="Y">
 																            <label class="form-check-label" for="duesmthtYes">월세</label>
 																        </div>
 																        <div class="form-check form-check-inline">
-																            <input type="radio" id="duesmthtNo1" name="duesMthtYN" class="form-check-input" value="N">
+																            <input type="radio" id="duesmthtNo1" name="duesMthtYN" class="form-check-input duesMthtYN" value="N">
 																            <label class="form-check-label" for="duesmthtNo">월세아님</label>
 																        </div>
 																    </div>
-																    <input class="form-control text-end" type="text" id="duesMtht1" name="duesMtht" value="0">
+																    <input class="form-control text-end duesMtht" type="text" id="duesMtht1" name="duesMtht" value="0">
 																</div>
 																
 											                    <div class="mb-3 text-center">
 											                        <input type="button" class="btn btn-light" style="margin-right: 0.08rem;" data-bs-dismiss="modal" value="닫기">
-											                        <input type="button" class="btn btn-primary" id="updateBtn" value="수정">
+											                        <input type="button" class="btn btn-primary updateBtn" id="updateBtn" data-payde="${dues.duesPayde }" value="수정">
 											                    </div>
-											                    <sec:csrfInput/>
-											                </form>
+<%-- 											                    <sec:csrfInput/> --%>
+<!-- 											                </form> -->
 											            </div>
 											        </div>
 											    </div>
@@ -335,7 +333,7 @@
 												                </div>
 												                <form class="ps-3 pe-3" action="/owner/dues/delete.do" method="post" id="delForm">
 												                	<input type="hidden" name="frcsId" value="${frcsId }"/>
-												                	<input type="hidden" name="duesPayde" value="${dues.duesPayde }" />
+												                	<input type="hidden" name="duesPayde" value="${dues.duesPayde }"/>
 												                 	  <div class="text-center mt-2 mb-4"> 
 												                		<h4>정말 삭제하시겠습니까?</h4>
 												                		</div>
@@ -383,15 +381,15 @@ $(function(){
 	var frcsId = $("#frcsId").val();
 	var autoBtn = $("#autoBtn");
 	
-	// 자동완성
-	autoBtn.on("click",function(){
-		$("#duesElcty").val(180000);
-		$("#duesWater").val(300000);
-		$("#duesGas").val(200000);
-		$("#duesmthtYes").attr("checked", true);
-		$("#duesMtht").attr("disabled", false);
-		$("#duesMtht").val(1000000);
-	});
+// 	// 자동완성
+// 	autoBtn.on("click",function(){
+// 		$("#duesElcty").val(180000);
+// 		$("#duesWater").val(300000);
+// 		$("#duesGas").val(200000);
+// 		$("#duesmthtYes").attr("checked", true);
+// 		$("#duesMtht").attr("disabled", false);
+// 		$("#duesMtht").val(1000000);
+// 	});
 	
 	// a 태그를 클릭하면 이벤트 실행 (페이징 처리)
 	pagingArea.on("click","a", function(event){
@@ -480,21 +478,20 @@ $(function(){
 		});
 	});
 	
-	// 수정
+	// 상세 불러오기
 	tBody.on("click","#updateFormBtn",function(){	// 수정버튼을 클릭하면
 		var thisEle = $(this);	// 클릭한 버튼
-		var duesPaydeDate = $(this).data("payde");	
-		
+		var duesPaydeDate = $(this).data("payde");
 		
 		var data = {
 			duesPayde : duesPaydeDate,
 			frcsId : frcsId
 		};
-
+		
 		// 해당 모달창을 띄우기 위해
 		var targetModal = $($(this).data("bs-target"));
 		
-		// 상세내역 ajax + 수정
+		// 상세내역 ajax 
 		$.ajax({
 			type: "post",
 			url : "/owner/dues/duesDetail.do",
@@ -515,10 +512,10 @@ $(function(){
 				
 				thisEle.next().find("#duesPayde1").val(duesPayde);
 				thisEle.next().find("#duesPayde1").attr("disabled",true);
-				thisEle.next().find("#duesElcty1").val(duesElcty);
-				thisEle.next().find("#duesWater1").val(duesWater);
-				thisEle.next().find("#duesGas1").val(duesGas);
-				thisEle.next().find("#duesMtht1").val(duesMtht);
+				thisEle.next().find("#duesElcty1").val(numberToString(duesElcty));
+				thisEle.next().find("#duesWater1").val(numberToString(duesWater));
+				thisEle.next().find("#duesGas1").val(numberToString(duesGas));
+				thisEle.next().find("#duesMtht1").val(numberToString(duesMtht));
 				thisEle.next().find("#duesMthtYN1").val(duesMthtYN);
 				
 				// 월세여부  라디오버튼 체크 
@@ -538,26 +535,60 @@ $(function(){
 				// 월세여부를 다시 Y로 바꿨을 때 월세 금액 적는 칸 다시 활성화 및 원래 값 셋팅
 				thisEle.next().find("#duesmthtYes1").on("click",function(){
 					thisEle.next().find("#duesMtht1").attr("disabled",false);
-					thisEle.next().find("#duesMtht1").val(duesMtht);
+					thisEle.next().find("#duesMtht1").val(numberToString(duesMtht));
 				});
 				
 				targetModal.modal("show");
 				console.log(targetModal);
-				 
-				thisEle.next().find("#updateBtn").on("click",function(){
-					Swal.fire({
-			            title: "수정 성공",
-			            text: "내역 수정에 성공하였습니다.",
-			            confirmButtonText: "확인",
-			            icon: "success",
-			            preConfirm: function () {
-							thisEle.next().find("#duesUpdateForm").submit();
-			            }
-			        });
+				
+				$(".updateBtn").on("click",function(){
+					
+					var payde = $(this).data("payde");
+					var duesElcty = stringNumberToInt(thisEle.next().find("#duesElcty1").val());
+					var duesWater = stringNumberToInt(thisEle.next().find("#duesWater1").val());
+					var duesGas = stringNumberToInt(thisEle.next().find("#duesGas1").val());
+					var duesMtht = stringNumberToInt(thisEle.next().find("#duesMtht1").val());
+					var duesMthtYN = thisEle.next().find(".duesMthtYN").attr('value');
+	
+				    var data2 = {
+						duesPayde : duesPaydeDate,
+						frcsId : frcsId,
+						duesElcty : duesElcty,
+						duesWater : duesWater,
+						duesGas : duesGas,
+						duesMtht : duesMtht,
+						duesMthtYN : duesMthtYN
+					};
+					
+					$.ajax({
+						type: "post",
+						url : "/owner/dues/duesUpdate.do",
+						beforeSend : function(xhr){	// csrf토큰 보내기 위함
+							xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");	//key value로 보낸다.
+						},
+						data : JSON.stringify(data2),
+						contentType : "application/json; charset=utf-8",
+						success : function(res){
+							console.log(res);
+							if(res == "OK"){
+								Swal.fire({
+						            title: "수정 완료",
+						            text: "정상적으로 수정되었습니다.",
+						            confirmButtonText: "확인",
+						            icon: "success",
+						            preConfirm: function () {
+						            	location.href = "/owner/dues.do";
+						            }
+						        });
+							}
+						}
+					});
 				});
 			}
 		});
 	});
+	
+	
 	
 	// 월세 차트
 	var frcsId = $("#frcsId").val();
@@ -648,6 +679,27 @@ $(function(){
 			
 		}
 	});
+   
+   // 3자리 단위로 ,찍기
+   function numberToString(number) {
+       return new Intl.NumberFormat('ko-KR').format(number);
+   }
+   
+   // ,찍혀있는거 다시 정수형으로 변환
+   function stringNumberToInt(stringNumber){
+      return parseInt(stringNumber.replace(/,/g , ''));
+   }
+   
+   // input에 숫자만 입력할 수 있게끔 정규식 검사
+   function regularCheck(name){
+		$(name).keyup(function(){
+			var replace_text = $(this).val().replace(/[^-0-9]/g,"");
+			$(this).val(replace_text);
+		});
+   }
+   
+   regularCheck(".inputType");
+   
 });
 
 </script>

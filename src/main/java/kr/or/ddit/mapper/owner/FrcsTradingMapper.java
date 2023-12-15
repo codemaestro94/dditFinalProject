@@ -59,4 +59,7 @@ public interface FrcsTradingMapper {
 	// 트레이딩 상세내역(응답)
 	public FrcsInventoryVO getReqDetail(FrcsInventoryVO frcsInventVO);
 
+	// 트레이딩 검색
+	public List<TradingVO> selectTradingList(TradingVO tradVO);
+
 }

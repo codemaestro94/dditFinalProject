@@ -14,15 +14,21 @@
 	</sql>
 	
 	<sql id="sendReceiveSearch">
-		<if test="sendReceive !=null and sendReceive== 'all'">
-			and t.frcs_id = #{frcsId} or frcs_id2 = #{frcsId}
-		</if>
-		<if test="sendReceive !=null and sendReceive== 'receive'">
-			and frcs_id2 = #{frcsId}
-		</if>
-		<if test="sendReceive !=null and sendReceive== 'send'">
-			and t.frcs_id = #{frcsId}
-		</if>
+	    <if test="sendReceive != null and sendReceive.size() > 0">
+	        <foreach collection="sendReceive" item="item" separator="or">
+	            <choose>
+	                <when test="item == 'all'">
+	                    (t.frcs_id = #{frcsId} or frcs_id2 = #{frcsId})
+	                </when>
+	                <when test="item == 'receive'">
+	                    frcs_id2 = #{frcsId}
+	                </when>
+	                <when test="item == 'send'">
+	                    t.frcs_id = #{frcsId}
+	                </when>
+	            </choose>
+	        </foreach>
+	    </if>
 	</sql>
 	
 	<sql id="progressSearch">
@@ -113,6 +119,18 @@
 		<![CDATA[	
 		where b.rnum >= #{startRow} and b.rnum <= #{endRow}
 		]]>
+	</select>
+	
+	<select id="selectTradingList" parameterType="tradVO" resultType="tradVO">
+			select trad_no, t.frcs_id, h.vdprod_cd, frcs_id2, trad_qy, trad_amt, trad_date, trad_stts, trad_rm, h.vdprod_name, frcs_name, 
+			(select f.frcs_name from franchise f where t.frcs_id2 = f.frcs_id) as frcs_name2
+			from trading t
+			inner join head_inventory h on t.vdprod_cd = h.vdprod_cd
+			inner join franchise f on t.frcs_id = f.frcs_id
+			where 1=1
+		<include refid="sendReceiveSearch"/>
+		<include refid="progressSearch"/>
+			order by trad_date desc
 	</select>
 	
 	<!-- 트레이딩 재고 -처리 -->

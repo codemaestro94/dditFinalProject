@@ -43,4 +43,7 @@ public interface IFrcsTradingService {
 	
 	// 트레이딩 상세(응답)
 	public FrcsInventoryVO getReqDetail(FrcsInventoryVO frcsInventVO);
+
+	// 트레이딩 검색
+	public List<TradingVO> getSearch(TradingVO tradVO);
 }

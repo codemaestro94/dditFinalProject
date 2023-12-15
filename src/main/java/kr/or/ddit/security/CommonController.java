@@ -14,8 +14,8 @@ public class CommonController {
 
 	@RequestMapping(value = "/accessError", method = RequestMethod.GET)
 	public String accessDenied(Authentication auth, Model model) {
-		log.info("accessDenied() 실행...!");
-		log.info("access Denied : " + auth);
+//		log.info("accessDenied() 실행...!");
+//		log.info("access Denied : " + auth);
 		/*
 		 * auth 정보
 		 * 스프링 시큐리티 동작으로 인해 만들어진 UserDetails 정보

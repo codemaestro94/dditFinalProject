@@ -158,7 +158,6 @@ $(function(){
 	// 페이지 로딩될 때 list뿌림
     openPage();
 	
-	
 	function openPage(){
 		var searchType = $("#searchType").val();
 		var searchWord = $("#searchWord").val();
@@ -167,6 +166,7 @@ $(function(){
 		var sortOrder = 'asc';
 		
 		sortPaging(sortType,sortOrder,currentPage,searchType,searchWord);
+		comparison();
 	}
 	
 	// 검색
@@ -251,11 +251,21 @@ $(function(){
 				for(var i=0; i<length; i++){
 // 					console.log(res.dataList[i]);
 					
+					var invntryQyVal = parseInt(res.dataList[i].invntryQy);	// 현 재고수량 input 요소의 값
+				    var proprtQyVal = parseInt(res.dataList[i].proprtQy);	// 적정 재고수량 input 요소의 값
+				   
+				    var style = "";
+				    if (proprtQyVal >= invntryQyVal) {
+				        style = 'font-weight: bold; color:red';
+				    } else {
+				        style = 'color:black';
+				    }
+				    
 					var row = $("<tr>")
 					  .append($("<td>").text(res.dataList[i].vdprodCd).attr('style', 'text-align:center'))
 				        .append($("<td>").text(res.dataList[i].vdprodName).attr('style', 'text-align:center'))
 				        .append($("<td>").attr({'style': 'text-align:center', 'id': 'invntryQytd'})
-				            .append($("<span>").attr('id', 'invntryQySpan').text(res.dataList[i].invntryQy))
+				            .append($("<span>").attr({'style' : style, 'id': 'invntryQySpan'}).text(res.dataList[i].invntryQy))
 				            .append($("<input>").attr({'type': 'hidden', 'class':'invntryQyInput', 'value': res.dataList[i].invntryQy, 'id': 'invntryQy', 'name': 'invntryQy' })))
 				        .append($("<td>").attr({ 'style': 'text-align:center', 'id': 'proprtQytd' })
 			        		.append($("<span>").attr('id', 'proprtQySpan').text(res.dataList[i].proprtQy))

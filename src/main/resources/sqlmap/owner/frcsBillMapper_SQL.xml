@@ -129,7 +129,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and trad_stts = '수락'
 	</select>
 
-
 	<!-- 가맹비 총괄 테이블에 존재하는지 존재하지 않는지 체크 -->
 	<select id="dupliCheck" parameterType="headfeeVO" resultType="int">
 		select count(fee_code) 
@@ -193,11 +192,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 트레이딩 상세 내역(내가 요청한거) -->
 	<select id="getTradDetail" parameterType="map" resultType="tradVO">
-		 select vdprod_name, trad_qy, trad_amt
+		select vdprod_name, trad_qy, trad_amt
         from trading t, head_inventory h
         where t.vdprod_cd = h.vdprod_cd
         and trunc(trad_date,'MM') = trunc(#{thisMonth},'MM')
-        and frcs_id = #{frcsId}
+        and frcs_id = #{frcsId} 
+        and trad_stts = '수락'
 	</select>
 	
 	<!-- 트레이딩 상세 내역(내가 보내준거) -->
@@ -207,6 +207,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where t.vdprod_cd = h.vdprod_cd
         and trunc(trad_date,'MM') = trunc(#{thisMonth},'MM')
         and frcs_id2 = #{frcsId}
+        and trad_stts = '수락'
 	</select>
 	
 </mapper>
